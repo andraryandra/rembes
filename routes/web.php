@@ -25,4 +25,5 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     Route::resource('roles', \App\Http\Controllers\Auth\RoleController::class);
     Route::resource('users', \App\Http\Controllers\Auth\UserController::class);
     Route::resource('rembes', \App\Http\Controllers\Web\Rembes\RembesController::class);
+    Route::resource('category-tahun', \App\Http\Controllers\Web\CategoryTahun\CategoryTahunController::class);
 });

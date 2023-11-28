@@ -87,6 +87,30 @@
             </div>
         </div>
 
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body shadow-sm">
+                    <div class="card-title d-flex align-items-center">
+                        <h5 class="mb-0">Menu Rembes</h5>
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        @foreach ($permission as $value)
+                            @if (strpos($value->name, 'rembes-') === 0)
+                                <div class="form-check my-2">
+                                    <label class="form-check-label" for="permission_{{ $value->id }}">
+                                        {{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, ['class' => 'form-check-input', 'id' => 'permission_' . $value->id]) }}
+                                        <span class="mx-2">{{ $value->name }}</span>
+                                    </label>
+
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary  mb-2 me-4">
                 <i class="far fa-save"></i>

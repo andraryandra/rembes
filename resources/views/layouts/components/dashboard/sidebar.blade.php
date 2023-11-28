@@ -102,14 +102,28 @@
                 </svg><span>MENU REMBES LIST</span></div>
         </li>
 
-        <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
-            <a href="{{ url('#') }}" aria-expanded="false" class="dropdown-toggle">
-                <div class="">
-                    <i data-feather="check-square"></i>
-                    <span>Ticket</span>
-                </div>
-            </a>
-        </li>
+        @can('category-tahun-list')
+            <li class="menu {{ $active == 'category-tahun' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.category-tahun.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="list"></i>
+                        <span>Category Tahun</span>
+                    </div>
+                </a>
+            </li>
+        @endcan
+
+
+        @can('rembes-list')
+            <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="check-square"></i>
+                        <span>Ticket</span>
+                    </div>
+                </a>
+            </li>
+        @endcan
 
         <li class="menu {{ $active == 'report-rembes' ? 'active' : '' }}">
             <a href="{{ url('#') }}" aria-expanded="false" class="dropdown-toggle">

@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('rembes', function (Blueprint $table) {
             $table->id();
 
-            $table->string('nama');
-            $table->decimal('nominal', 10, 2);
-            $table->date('tanggal');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete('SET NULL')->cascadeOnUpdate('CASCADE');
+            $table->foreignId('category_tahun_id')->constrained('category_tahuns')->cascadeOnDelete('SET NULL')->cascadeOnUpdate('CASCADE');
+            $table->date('tanggal_ticket');
             $table->enum('status', ['PENDING', 'APPROVED', 'REJECTED'])->default('PENDING');
-            $table->string('deskripsi', 100)->nullable();
-            $table->string('foto_bukti')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

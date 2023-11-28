@@ -83,6 +83,28 @@
                 </div>
             </div>
 
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body shadow-sm">
+                        <div class="card-title d-flex align-items-center">
+                            <h5 class="mb-0">Menu Rembes</h5>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @foreach ($rolePermissions as $v)
+                                @if (strpos($v->name, 'rembes-') === 0)
+                                    <div class="form-check my-2">
+
+                                        {{ Form::checkbox('permissions[]', $v->id, true, ['class' => 'form-check-input', 'id' => 'permission_' . $v->id, 'disabled' => 'disabled', 'checked' => 'checked']) }}
+                                        {{ Form::label('permission_' . $v->id, $v->name, ['class' => 'form-check-label']) }}
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

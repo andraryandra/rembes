@@ -44,6 +44,9 @@
     <link href="{{ asset('assets/src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/src/assets/css/light/components/font-icons.css') }}" rel="stylesheet" type="text/css">
 
+    <link href="{{ asset('assets/src/assets/css/light/apps/invoice-preview.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/src/assets/css/dark/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
 </head>
@@ -442,6 +445,7 @@
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{{ asset('assets/src/assets/js/apps/invoice-preview.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/src/assets/js/apps/contact.js') }}"></script>
 

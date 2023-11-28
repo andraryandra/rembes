@@ -13,11 +13,19 @@ class Rembes extends Model
     protected $table = 'rembes';
 
     protected $fillable = [
-        'nama',
-        'nominal',
-        'tanggal',
+        'user_id',
+        'category_tahun_id',
+        'tanggal_ticket',
         'status',
-        'deskripsi',
-        'foto_bukti',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function categoryTahun()
+    {
+        return $this->belongsTo(CategoryTahun::class, 'category_tahun_id', 'id');
+    }
 }
