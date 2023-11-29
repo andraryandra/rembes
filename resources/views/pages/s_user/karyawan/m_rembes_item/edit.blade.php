@@ -7,7 +7,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">User</li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Rembes</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Rembes Item</li>
             </ol>
         </nav>
     </div>
@@ -17,7 +17,7 @@
         <div class="col-lg-12 margin-tb">
 
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('dashboard.rembes.index') }}">
+                <a class="btn btn-primary" href="{{ route('dashboard.rembes-item.index', $rembes->id) }}">
                     <i class="far fa-arrow-alt-circle-left"></i>
                     Back
                 </a>
@@ -30,58 +30,53 @@
     <div class="card ">
         <div class="row m-2">
             <div class="card-body">
-                {!! Form::model($rembes, [
-                    'route' => ['dashboard.rembes.update', $rembes->id],
+                {!! Form::model($rembes_item, [
+                    'route' => ['dashboard.rembes-item.update', ['rembes' => $rembes->id, 'id' => $rembes_item->id]],
                     'method' => 'PUT',
                     'enctype' => 'multipart/form-data',
                 ]) !!}
+
                 <div class="form-group my-2">
-                    {!! Form::label('nama', 'Nama:') !!}
-                    {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Entry your name', 'required']) !!}
+                    {!! Form::label('nama_rembes', 'Name Rembes:') !!}
+                    {!! Form::text('nama_rembes', null, [
+                        'class' => 'form-control',
+                        'placeholder' => 'Masukkan name rembes',
+                        'required',
+                    ]) !!}
                 </div>
+
                 <div class="col-12">
                     <label class="form-label">Amount of money</label>
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">Rp.</span>
-                        <input type="text" name="nominal" id="input-harga" class="form-control"
-                            placeholder="Entry your amount of money"
-                            value="{{ number_format($rembes->nominal, 0, ',', '.') }}">
+                        {!! Form::text('nominal', number_format($rembes_item->nominal, 0, ',', '.'), [
+                            'class' => 'form-control',
+                            'placeholder' => 'Entry your amount of money',
+                            'id' => 'input-harga',
+                        ]) !!}
                     </div>
                 </div>
 
+
                 <div class="form-group my-2">
-                    {!! Form::label('tanggal', 'Date:') !!}
-                    {!! Form::date('tanggal', $rembes->tanggal, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::label('tanggal_rembes', 'Date:') !!}
+                    {!! Form::date('tanggal_rembes', null, ['class' => 'form-control', 'required']) !!}
                 </div>
 
                 <div class="form-group my-2">
-                    {!! Form::label('status', 'Status:') !!}
-                    {!! Form::select(
-                        'status',
-                        ['PENDING' => 'PENDING', 'APPROVED' => 'APPROVED', 'REJECTED' => 'REJECTED'],
-                        $rembes->status,
-                        ['class' => 'form-select', 'required'],
-                    ) !!}
+                    {!! Form::label('deskripsi', 'Description (Opsional):') !!}
+                    {!! Form::textarea('deskripsi', null, ['class' => 'form-control', 'rows' => '3']) !!}
                 </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('deskripsi', 'Description (Optional):') !!}
-                    {!! Form::textarea('deskripsi', $rembes->deskripsi, ['class' => 'form-control', 'rows' => '3']) !!}
-                </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('foto_bukti', 'Photo Evidence (Optional):') !!}
-                    {!! Form::file('foto_bukti[]', ['class' => 'form-control-file border rounded', 'multiple' => 'multiple']) !!}
-                </div>
-
 
                 <div class="form-group my-3 text-center">
                     <button type="submit" id="buttonText" class="btn btn-primary" onclick="disableButton(this);">
                         <i class="far fa-save"></i>
-                        Save
+                        Simpan
                     </button>
                 </div>
+
                 {!! Form::close() !!}
+
             </div>
         </div>
     </div>

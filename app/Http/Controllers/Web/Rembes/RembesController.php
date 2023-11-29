@@ -143,6 +143,7 @@ class RembesController extends Controller
     {
         $data = [
             'rembes' => \App\Models\Rembes::findOrFail($id),
+            'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
             'active' => 'rembes',
         ];
 

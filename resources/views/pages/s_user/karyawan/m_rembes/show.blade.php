@@ -94,41 +94,33 @@
                                                         <thead class="">
                                                             <tr>
                                                                 <th scope="col">S.No</th>
-                                                                <th scope="col">Items</th>
-                                                                <th class="text-end" scope="col">Qty</th>
-                                                                <th class="text-end" scope="col">Price</th>
-                                                                <th class="text-end" scope="col">Amount</th>
+                                                                <th scope="col">Nama Rembes</th>
+                                                                <th class="text-end" scope="col">Nominal</th>
+                                                                <th class="text-end" scope="col">Tanggal Rembes</th>
+                                                                <th class="text-end" scope="col">Deskripsi</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>1</td>
-                                                                <td>Calendar App Customization</td>
-                                                                <td class="text-end">1</td>
-                                                                <td class="text-end">$120</td>
-                                                                <td class="text-end">$120</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2</td>
-                                                                <td>Chat App Customization</td>
-                                                                <td class="text-end">1</td>
-                                                                <td class="text-end">$230</td>
-                                                                <td class="text-end">$230</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3</td>
-                                                                <td>Laravel Integration</td>
-                                                                <td class="text-end">1</td>
-                                                                <td class="text-end">$405</td>
-                                                                <td class="text-end">$405</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>4</td>
-                                                                <td>Backend UI Design</td>
-                                                                <td class="text-end">1</td>
-                                                                <td class="text-end">$2500</td>
-                                                                <td class="text-end">$2500</td>
-                                                            </tr>
+                                                            @foreach ($rembes_item as $item)
+                                                                @if ($item->rembes_id == $rembes->id)
+                                                                    <tr>
+                                                                        <td>{{ $loop->iteration }}</td>
+                                                                        <td>{{ $item->nama_rembes }}</td>
+                                                                        <td class="text-end">
+                                                                            Rp.
+                                                                            {{ number_format($item->nominal, 0, ',', '.') }}
+                                                                        </td>
+                                                                        <td>
+                                                                            @php
+                                                                                $tanggal = \Carbon\Carbon::parse($item->tanggal_rembes)->locale('id_ID');
+                                                                            @endphp
+                                                                            {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                                                        </td>
+                                                                        <td class="text-end">{{ $item->deskripsi }}</td>
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
+
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -5,19 +5,31 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Rembes</li>
+                <li class="breadcrumb-item active" aria-current="page">Rembes Item</li>
             </ol>
         </nav>
     </div>
     <!-- /BREADCRUMB -->
+
+    <div class="row my-3">
+        <div class="col-lg-12 margin-tb">
+
+            <div class="pull-right">
+                <a class="btn btn-primary" href="{{ route('dashboard.rembes.index') }}">
+                    <i class="far fa-arrow-alt-circle-left"></i>
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
 
     @include('layouts.partials.alert-prompt.alert')
 
     <div class="searchable-container">
         <div class="switch align-self-center">
 
-            @can('rembes-create')
-                <a class="btn btn-primary" href="{{ route('dashboard.rembes.create') }}">
+            @can('rembes-item-create')
+                <a class="btn btn-primary" href="{{ route('dashboard.rembes-item.create', $rembes->id) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-user-plus">
@@ -26,7 +38,7 @@
                         <line x1="20" y1="8" x2="20" y2="14"></line>
                         <line x1="23" y1="11" x2="17" y2="11"></line>
                     </svg>
-                    Add New Rembes
+                    Add New Rembes Item
                 </a>
             @endcan
         </div>
@@ -39,79 +51,50 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>File</th>
+                                <th>Name Rembes</th>
+                                <th>Nominal</th>
+                                <th>Date Rembes</th>
                                 <th>Description</th>
                                 <th width="280px"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rembes as $key => $rembes_list)
+                            @foreach ($rembes_item as $key => $rembes_item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $rembes_list->nama }}</td>
-                                    <td>Rp. {{ number_format($rembes_list->nominal, 0, ',', '.') }}</td>
+                                    <td>{{ $rembes_item->nama_rembes }}</td>
+                                    <td>Rp. {{ number_format($rembes_item->nominal, 0, ',', '.') }}</td>
                                     <td>
                                         @php
-                                            $tanggal = \Carbon\Carbon::parse($rembes_list->tanggal)->locale('id_ID');
+                                            $tanggal = \Carbon\Carbon::parse($rembes_item->tanggal_rembes)->locale('id_ID');
                                         @endphp
                                         {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge
-                                            @if ($rembes_list->status == 'PENDING') btn-warning
-                                            @elseif ($rembes_list->status == 'APPROVED')
-                                            btn-success
-                                            @elseif ($rembes_list->status == 'REJECTED')
-                                            btn-danger @endif
-                                            text-start">
-                                            {{ $rembes_list->status }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @if ($rembes_list->foto_bukti)
-                                            @foreach (explode(',', $rembes_list->foto_bukti) as $file)
-                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                                                    <img src="{{ asset('storage/foto_bukti/' . $file) }}"
-                                                        alt="{{ $rembes_list->id }}" class="mx-2 rounded" width="100">
-                                                @else
-                                                    <span class="badge btn-info">
-                                                        <i class="far fa-file-archive"></i>
-                                                        {{ $file }}
-                                                    </span>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            Tidak ada foto bukti
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ Str::limit($rembes_list->deskripsi, 50, '...') ?? 'No Description' }}
+                                        {{ Str::limit($rembes_item->deskripsi, 50, '...') ?? 'No Description' }}
                                     </td>
 
                                     <td>
-                                        @can('rembes-list')
+                                        {{-- @can('rembes-item-list')
                                             <a class="badge
                                             badge-light-info text-start"
-                                                href="{{ route('dashboard.rembes.show', $rembes_list->id) }}">
+                                                href="{{ route('dashboard.rembes-item.show', $rembes_item->id) }}">
                                                 <i data-feather="eye"></i>
                                                 View
                                             </a>
-                                        @endcan
-                                        @can('rembes-edit')
+                                        @endcan --}}
+                                        @can('rembes-item-edit')
                                             <a class="badge badge-light-primary text-start me-2"
-                                                href="{{ route('dashboard.rembes.edit', $rembes_list->id) }}">
+                                                href="{{ route('dashboard.rembes-item.edit', ['rembes' => $rembes->id, 'id' => $rembes_item->id]) }}">
                                                 <i class="far fa-edit"></i>
-                                                Edit</a>
+                                                Edit
+                                            </a>
                                         @endcan
-                                        @can('rembes-delete')
+
+                                        @can('rembes-item-delete')
                                             {!! Form::open([
                                                 'method' => 'DELETE',
-                                                'route' => ['dashboard.rembes.destroy', $rembes_list->id],
+                                                'route' => ['dashboard.rembes-item.destroy', ['rembes' => $rembes->id, 'id' => $rembes_item->id]],
                                                 'style' => 'display:inline',
                                                 'onsubmit' => 'return confirm("Are you sure you want to delete this user?");',
                                             ]) !!}
@@ -129,20 +112,35 @@
                         <tfoot>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Image</th>
+                                <th>Name Rembes</th>
+                                <th>Nominal</th>
+                                <th>Date Rembes</th>
                                 <th>Description</th>
                                 <th width="280px"></th>
                             </tr>
                         </tfoot>
                     </table>
-                    {{-- {!! $roles->render() !!} --}}
-
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+{{--
+                                    <td>
+                                        @if ($rembes_list->foto_bukti)
+                                            @foreach (explode(',', $rembes_list->foto_bukti) as $file)
+                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                    <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                        alt="{{ $rembes_list->id }}" class="mx-2 rounded" width="100">
+                                                @else
+                                                    <span class="badge btn-info">
+                                                        <i class="far fa-file-archive"></i>
+                                                        {{ $file }}
+                                                    </span>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            Tidak ada foto bukti
+                                        @endif
+                                    </td> --}}

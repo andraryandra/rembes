@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('rembes_items', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('rembes_id')->constrained('rembes')->cascadeOnDelete('SET NULL')->cascadeOnUpdate('CASCADE');
+
             $table->string('nama_rembes');
             $table->decimal('nominal', 10, 2);
             $table->date('tanggal_rembes');

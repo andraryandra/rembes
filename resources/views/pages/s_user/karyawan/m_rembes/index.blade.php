@@ -71,6 +71,14 @@
                                         </span>
                                     </td>
                                     <td>
+                                        @can('rembes-item-list')
+                                            <a class="badge
+                                            badge-light-warning text-start"
+                                                href="{{ route('dashboard.rembes-item.index', $rembes_list->id) }}">
+                                                <i data-feather="database"></i>
+                                                List Rembes
+                                            </a>
+                                        @endcan
                                         @can('rembes-list')
                                             <a class="badge
                                             badge-light-info text-start"

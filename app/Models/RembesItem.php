@@ -12,6 +12,7 @@ class RembesItem extends Model
     protected $table = 'rembes_items';
 
     protected $fillable = [
+        'rembes_id',
         'nama_rembes',
         'nominal',
         'tanggal_rembes',

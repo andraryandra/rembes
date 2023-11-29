@@ -119,7 +119,7 @@
                 <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i data-feather="check-square"></i>
-                        <span>Ticket</span>
+                        <span>Data Rembes</span>
                     </div>
                 </a>
             </li>
