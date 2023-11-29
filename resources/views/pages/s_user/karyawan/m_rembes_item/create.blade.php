@@ -6,8 +6,9 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Rembes</li>
-                <li class="breadcrumb-item active" aria-current="page">Create New Rembes Item</li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse</li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse Item</li>
+                <li class="breadcrumb-item active" aria-current="page">Create New Reimburse Item</li>
             </ol>
         </nav>
     </div>
@@ -30,7 +31,44 @@
     <div class="card ">
         <div class="row m-2">
             <div class="card-body">
-                {!! Form::open([
+                <form action="{{ route('dashboard.rembes-item.store', $rembes->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="form-group my-2">
+                        <label for="nama_rembes">Item Name: <span class="text-danger">*</span></label>
+                        <input type="text" name="nama_rembes" id="nama_rembes" class="form-control"
+                            placeholder="Entry your item remburse name" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Amount of money : <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            <input type="text" name="nominal" id="input-harga" class="form-control"
+                                placeholder="Entry your amount of money" value="{{ old('nominal') }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="tanggal_rembes">Date: <span class="text-danger">*</span></label>
+                        <input type="date" name="tanggal_rembes" id="tanggal_rembes" class="form-control" required>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="deskripsi">Description (Optional):</label>
+                        <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group my-3 text-center">
+                        <button type="submit"id="buttonText" class="btn btn-primary" onclick="disableButton(this);">
+                            <i class="far fa-save"></i>
+                            Save
+                        </button>
+                    </div>
+                </form>
+
+                {{-- {!! Form::open([
                     'route' => ['dashboard.rembes-item.store', $rembes->id],
                     'method' => 'POST',
                     'enctype' => 'multipart/form-data',
@@ -43,33 +81,9 @@
                         'placeholder' => 'Entry your name rembes',
                         'required',
                     ]) !!}
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Amount of money</label>
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">Rp.</span>
-                        <input type="text" name="nominal" id="input-harga" class="form-control"
-                            placeholder="Entry your amount of money" value="{{ old('nominal') }}">
-                    </div>
-                </div>
+                </div> --}}
 
-                <div class="form-group my-2">
-                    {!! Form::label('tanggal_rembes', 'Date:') !!}
-                    {!! Form::date('tanggal_rembes', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('deskripsi', 'Description (Optional):') !!}
-                    {!! Form::textarea('deskripsi', null, ['class' => 'form-control', 'rows' => '3']) !!}
-                </div>
-
-                <div class="form-group my-3 text-center">
-                    <button type="submit"id="buttonText" class="btn btn-primary" onclick="disableButton(this);">
-                        <i class="far fa-save"></i>
-                        Save
-                    </button>
-                </div>
-                {!! Form::close() !!}
+                {{-- {!! Form::close() !!} --}}
             </div>
         </div>
     </div>
@@ -82,6 +96,8 @@
                 $('#status option[value=""]').css('display', 'none');
             });
         </script>
+
+        <!-- Disable Button -->
         <script>
             function disableButton(button) {
                 button.disabled = true;
@@ -100,7 +116,7 @@
             }
         </script>
 
-
+        <!-- Format Rupiah -->
         <script>
             function formatRupiah(angka) {
                 var rupiah = '';

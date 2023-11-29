@@ -5,7 +5,8 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Rembes Item</li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse</li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse Item</li>
             </ol>
         </nav>
     </div>
@@ -38,7 +39,7 @@
                         <line x1="20" y1="8" x2="20" y2="14"></line>
                         <line x1="23" y1="11" x2="17" y2="11"></line>
                     </svg>
-                    Add New Rembes Item
+                    Add New Reimburse Item
                 </a>
             @endcan
         </div>
@@ -51,9 +52,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name Rembes</th>
+                                <th>Reimburse Item</th>
                                 <th>Nominal</th>
-                                <th>Date Rembes</th>
+                                <th>Date Reimburse</th>
                                 <th>Description</th>
                                 <th width="280px"></th>
                             </tr>

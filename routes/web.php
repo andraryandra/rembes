@@ -24,8 +24,16 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
 
     Route::resource('roles', \App\Http\Controllers\Auth\RoleController::class);
     Route::resource('users', \App\Http\Controllers\Auth\UserController::class);
-    Route::resource('rembes', \App\Http\Controllers\Web\Rembes\RembesController::class);
-    // Route::resource('rembes-item', \App\Http\Controllers\Web\Rembes\RembesItemController::class);
+    Route::controller(App\Http\Controllers\Web\Rembes\RembesController::class)->group(function () {
+        Route::get('rembes', 'index')->name('rembes.index');
+        Route::get('rembes/create', 'create')->name('rembes.create');
+        Route::post('rembes/store', 'store')->name('rembes.store');
+        Route::get('rembes/{id}', 'show')->name('rembes.show');
+        Route::get('rembes/{id}/edit', 'edit')->name('rembes.edit');
+        Route::put('rembes/{id}', 'update')->name('rembes.update');
+        Route::delete('rembes/delete/{id}', 'destroy')->name('rembes.destroy');
+    });
+
     Route::controller(\App\Http\Controllers\Web\Rembes\RembesItemController::class)->group(function () {
         Route::get('rembes-item/{id}', 'index')->name('rembes-item.index');
         Route::get('rembes-item/create/{id}', 'create')->name('rembes-item.create');
@@ -37,4 +45,14 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     });
 
     Route::resource('category-tahun', \App\Http\Controllers\Web\CategoryTahun\CategoryTahunController::class);
+
+    Route::controller(\App\Http\Controllers\Web\Submission\SubmissionController::class)->group(function () {
+        Route::get('submission', 'index')->name('submission.index');
+        // Route::get('submission/create', 'create')->name('submission.create');
+        // Route::post('submission/store', 'store')->name('submission.store');
+        // Route::get('submission/{id}', 'show')->name('submission.show');
+        // Route::get('submission/{id}/edit', 'edit')->name('submission.edit');
+        // Route::put('submission/{id}', 'update')->name('submission.update');
+        // Route::delete('submission/delete/{id}', 'destroy')->name('submission.destroy');
+    });
 });

@@ -14,6 +14,7 @@ class Rembes extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'category_tahun_id',
         'tanggal_ticket',
         'status',

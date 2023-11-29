@@ -6,8 +6,8 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">User</li>
-                <li class="breadcrumb-item active" aria-current="page">Create New Rembes</li>
+                <li class="breadcrumb-item active" aria-current="page">Category Tahun</li>
+                <li class="breadcrumb-item active" aria-current="page">Create New Category Tahun</li>
             </ol>
         </nav>
     </div>
@@ -17,7 +17,7 @@
         <div class="col-lg-12 margin-tb">
 
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('dashboard.rembes.index') }}">
+                <a class="btn btn-primary" href="{{ route('dashboard.category-tahun.index') }}">
                     <i class="far fa-arrow-alt-circle-left"></i>
                     Back
                 </a>
@@ -30,24 +30,16 @@
     <div class="card ">
         <div class="row m-2">
             <div class="card-body">
-                <form action="{{ route('dashboard.rembes.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('dashboard.category-tahun.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group my-2">
-                        <label for="user_id">User:</label>
-                        <input style="display: none;" type="text" name="user_id" id="user_id" class="form-control"
-                            value="{{ Auth::user()->id }}">
-                        <input type="text" name="nama_user" id="nama_user" class="form-control" disabled
-                            value="{{ Auth::user()->name }}">
+                        <label for="nama_category_tahun">Category Name: <span class="text-danger">*</span></label>
+                        <input type="text" name="nama_category_tahun" id="nama_category_tahun" class="form-control"
+                            value="{{ old('nama_category_tahun') }}" placeholder="Enter a Category Name">
                     </div>
 
-                    <div class="form-group my-2">
-                        <label for="user_id">Reimbursement Name:</label>
-                        <input type="text" name="name" id="nama" class="form-control" value="{{ old('name') }}"
-                            placeholder="Enter the reimbursement name">
-                    </div>
-
-                    <div class="form-group my-2">
+                    {{-- <div class="form-group my-2">
                         <label for="category_tahun_id">Category:</label>
                         <select class="form-select" name="category_tahun_id" id="category_tahun_id" required>
                             <option value="">-- Select Category --</option>
@@ -71,7 +63,7 @@
                             <i class="far fa-save"></i>
                             Save
                         </button>
-                    </div>
+                    </div> --}}
 
                 </form>
             </div>
