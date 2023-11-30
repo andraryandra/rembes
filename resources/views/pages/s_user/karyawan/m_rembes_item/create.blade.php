@@ -37,8 +37,8 @@
 
                     <div class="form-group my-2">
                         <label for="nama_rembes">Item Name: <span class="text-danger">*</span></label>
-                        <input type="text" name="nama_rembes" id="nama_rembes" class="form-control"
-                            placeholder="Entry your item remburse name" required>
+                        <input value="{{ old('nama_rembes') }}" type="text" name="nama_rembes" id="nama_rembes"
+                            class="form-control" placeholder="Entry your item remburse name" required>
                     </div>
 
                     <div class="col-12">
@@ -52,12 +52,19 @@
 
                     <div class="form-group my-2">
                         <label for="tanggal_rembes">Date: <span class="text-danger">*</span></label>
-                        <input type="date" name="tanggal_rembes" id="tanggal_rembes" class="form-control" required>
+                        <input value="{{ old('tanggal_rembes') }}" type="date" name="tanggal_rembes" id="tanggal_rembes"
+                            class="form-control" required>
                     </div>
 
                     <div class="form-group my-2">
                         <label for="deskripsi">Description (Optional):</label>
-                        <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3"></textarea>
+                        <textarea name="deskripsi" id="deskripsi" class="form-control" value="{{ old('deskripsi') }}"
+                            placeholder="Entry your description" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="foto_bukti">Photo Evidence: <span class="text-danger">*</span></label>
+                        <input type="file" name="foto_bukti[]" id="foto_bukti" class="form-control" multiple>
                     </div>
 
                     <div class="form-group my-3 text-center">
@@ -68,22 +75,7 @@
                     </div>
                 </form>
 
-                {{-- {!! Form::open([
-                    'route' => ['dashboard.rembes-item.store', $rembes->id],
-                    'method' => 'POST',
-                    'enctype' => 'multipart/form-data',
-                ]) !!}
 
-                <div class="form-group my-2">
-                    {!! Form::label('nama_rembes', 'Nama Rembes:') !!}
-                    {!! Form::text('nama_rembes', null, [
-                        'class' => 'form-control',
-                        'placeholder' => 'Entry your name rembes',
-                        'required',
-                    ]) !!}
-                </div> --}}
-
-                {{-- {!! Form::close() !!} --}}
             </div>
         </div>
     </div>

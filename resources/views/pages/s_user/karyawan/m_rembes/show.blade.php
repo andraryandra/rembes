@@ -24,8 +24,9 @@
                                                     <div class="col-sm-6 col-12 mr-auto">
                                                         <div class="d-flex">
                                                             <img class="" src="{{ asset('logo/samara.png') }}"
-                                                                alt="company" class="rounded" width="200">
-                                                            <h3 class="in-heading align-self-center">PT. Satya Amarta Prima.
+                                                                alt="company" class="rounded" width="150">
+                                                            <h3 class="in-heading align-self-center"
+                                                                style="font-size: 14px;">PT. Satya Amarta Prima.
                                                             </h3>
                                                         </div>
                                                         <p class="inv-street-addr mt-3">Jl. Villa Melati Mas Raya No.5,
@@ -70,18 +71,18 @@
                                                     </div>
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
-                                                        <p class="inv-customer-name">Jesse Cory</p>
-                                                        <p class="inv-street-addr">405 Mulberry Rd., NC, 28649</p>
-                                                        <p class="inv-email-address">jcory@company.com</p>
-                                                        <p class="inv-email-address">(128) 666 070</p>
+                                                        <p class="inv-customer-name">{{ $rembes->user->name }}</p>
+                                                        <p class="inv-street-addr">{{ $rembes->name }} </p>
+                                                        <p class="inv-email-address">{{ $rembes->tanggal_ticket }}</p>
+                                                        <p class="inv-email-address">{{ $rembes->status }}</p>
                                                     </div>
 
                                                     <div
                                                         class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
-                                                        <p class="inv-customer-name">{{ $rembes->nama }}</p>
-                                                        <p class="inv-street-addr">2161 Ferrell Street, MN, 56545 </p>
-                                                        <p class="inv-email-address">info@mail.com</p>
-                                                        <p class="inv-email-address">(218) 356 9954</p>
+                                                        <p class="inv-customer-name">{{ $rembes->user->name }}</p>
+                                                        <p class="inv-street-addr">{{ $rembes->name }} </p>
+                                                        <p class="inv-email-address">{{ $rembes->tanggal_ticket }}</p>
+                                                        <p class="inv-email-address">{{ $rembes->status }}</p>
                                                     </div>
 
                                                 </div>
@@ -93,30 +94,42 @@
                                                     <table class="table">
                                                         <thead class="">
                                                             <tr>
-                                                                <th scope="col">S.No</th>
-                                                                <th scope="col">Nama Rembes</th>
-                                                                <th class="text-end" scope="col">Nominal</th>
-                                                                <th class="text-end" scope="col">Tanggal Rembes</th>
-                                                                <th class="text-end" scope="col">Deskripsi</th>
+                                                                <th scope="col">No</th>
+                                                                <th scope="col">Name Reimburse</th>
+                                                                <th scope="col">Nominal</th>
+                                                                <th scope="col">Date Reimburse</th>
+                                                                <th scope="col">Description</th>
+                                                                {{-- <th class="text-end" scope="col">Photo Evidence</th> --}}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($rembes_item as $item)
                                                                 @if ($item->rembes_id == $rembes->id)
                                                                     <tr>
-                                                                        <td>{{ $loop->iteration }}</td>
-                                                                        <td>{{ $item->nama_rembes }}</td>
-                                                                        <td class="text-end">
+                                                                        <td style="font-size: 12px;">{{ $loop->iteration }}
+                                                                        </td>
+                                                                        <td style="font-size: 12px;">
+                                                                            {{ $item->nama_rembes }}</td>
+                                                                        <td style="font-size: 12px;">
                                                                             Rp.
                                                                             {{ number_format($item->nominal, 0, ',', '.') }}
                                                                         </td>
-                                                                        <td>
+                                                                        <td style="font-size: 12px;">
                                                                             @php
                                                                                 $tanggal = \Carbon\Carbon::parse($item->tanggal_rembes)->locale('id_ID');
                                                                             @endphp
-                                                                            {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                                                            {{ $tanggal->isoFormat('D-MMMM-YYYY') ?? 'No Date' }}
                                                                         </td>
-                                                                        <td class="text-end">{{ $item->deskripsi }}</td>
+                                                                        <td style="font-size: 12px; max-width: 100px;">
+                                                                            @if ($item->deskripsi == null)
+                                                                                -
+                                                                            @else
+                                                                                <p
+                                                                                    style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; max-width: 100px; white-space: pre-line;">
+                                                                                    {{ $item->deskripsi }}
+                                                                                </p>
+                                                                            @endif
+                                                                        </td>
                                                                     </tr>
                                                                 @endif
                                                             @endforeach
@@ -126,43 +139,46 @@
                                                 </div>
                                             </div>
 
-                                            <div class="inv--total-amounts">
+                                            {{-- <div class="inv--total-amounts">
+                                                <h5 class="fw-bold">Photo Evidence:</h5>
+                                                @foreach ($rembes_item as $item)
+                                                    @if ($item->rembes_id == $rembes->id)
+                                                        @if ($item->foto_bukti)
+                                                            @foreach (explode(',', $item->foto_bukti) as $file)
+                                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                                    <a href="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                                        target="_blank">
+                                                                        <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                                            alt="{{ $item->id }}"
+                                                                            class="mx-2 rounded border" width="75">
+                                                                    </a>
+                                                                @else
+                                                                    <span class="badge btn-info">
+                                                                        <i class="far fa-file-archive"></i>
+                                                                        {{ $file }}
+                                                                    </span>
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </div> --}}
 
+                                            <div class="inv--total-amounts">
                                                 <div class="row mt-4">
                                                     <div class="col-sm-5 col-12 order-sm-0 order-1">
                                                     </div>
                                                     <div class="col-sm-7 col-12 order-sm-1 order-0">
                                                         <div class="text-sm-end">
-                                                            <div class="row">
+                                                            <div class="row fw-bold">
                                                                 <div class="col-sm-8 col-7">
                                                                     <p class="">Sub Total :</p>
                                                                 </div>
                                                                 <div class="col-sm-4 col-5">
-                                                                    <p class="">$3155</p>
-                                                                </div>
-                                                                <div class="col-sm-8 col-7">
-                                                                    <p class="">Tax 10% :</p>
-                                                                </div>
-                                                                <div class="col-sm-4 col-5">
-                                                                    <p class="">$315</p>
-                                                                </div>
-                                                                <div class="col-sm-8 col-7">
-                                                                    <p class=" discount-rate">Shipping :</p>
-                                                                </div>
-                                                                <div class="col-sm-4 col-5">
-                                                                    <p class="">$10</p>
-                                                                </div>
-                                                                <div class="col-sm-8 col-7">
-                                                                    <p class=" discount-rate">Discount 5% :</p>
-                                                                </div>
-                                                                <div class="col-sm-4 col-5">
-                                                                    <p class="">$150</p>
-                                                                </div>
-                                                                <div class="col-sm-8 col-7 grand-total-title mt-3">
-                                                                    <h4 class="">Grand Total : </h4>
-                                                                </div>
-                                                                <div class="col-sm-4 col-5 grand-total-amount mt-3">
-                                                                    <h4 class="">$3480</h4>
+                                                                    <p class="">
+                                                                        {{ number_format($rembes_nominal_item, 0, ',', '.') }}
                                                                 </div>
                                                             </div>
                                                         </div>

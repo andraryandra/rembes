@@ -10,22 +10,8 @@
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
         </a>
-        {{-- <div class="">
-            PT. SATYA AMARTA PRIMA
 
-        </div> --}}
-        {{-- <div class="search-animated toggle-search">
-
-
-            <div class="form-inline  form-inline ">
-                <div class="feather feather-x search-close">
-                </div>
-            </div>
-        </div> --}}
         <ul class="navbar-item flex-row ms-lg-auto ms-0">
-
-
-
             <li class="nav-item theme-toggle-item">
                 <div class="theme-toggle"></div>
             </li>
@@ -249,8 +235,8 @@
                                 &#x1F44B;
                             </div>
                             <div class="media-body">
-                                <h5>Shaun Park</h5>
-                                <p>Project Leader</p>
+                                <h5>{{ Auth::user()->name }}</h5>
+                                <p>{{ Auth::user()->roles->first()->name }}</p>
                             </div>
                         </div>
                     </div>

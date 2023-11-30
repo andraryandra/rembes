@@ -35,14 +35,15 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
     });
 
     Route::controller(\App\Http\Controllers\Web\Rembes\RembesItemController::class)->group(function () {
+        Route::get('{rembes}/edit/{id}', 'edit')->name('rembes-item.edit');
+        Route::put('update/{rembes}/{id}', 'update')->name('rembes-item.update');
+        Route::delete('rembes-item/delete/{rembes}/{id}', 'destroy')->name('rembes-item.destroy');
         Route::get('rembes-item/{id}', 'index')->name('rembes-item.index');
         Route::get('rembes-item/create/{id}', 'create')->name('rembes-item.create');
         Route::post('rembes-item/store/{id}', 'store')->name('rembes-item.store');
-        // Route::get('rembes-item/{id}', 'show')->name('rembes-item.show');
-        Route::get('rembes-item/{rembes}/{id}/edit', 'edit')->name('rembes-item.edit');
-        Route::put('rembes-item/{rembes}/{id}', 'update')->name('rembes-item.update');
-        Route::delete('rembes-item/delete/{rembes}/{id}', 'destroy')->name('rembes-item.destroy');
     });
+
+
 
     Route::resource('category-tahun', \App\Http\Controllers\Web\CategoryTahun\CategoryTahunController::class);
 

@@ -122,7 +122,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    {{-- {!! $roles->render() !!} --}}
 
                 </div>
             </div>

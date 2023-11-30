@@ -36,6 +36,8 @@
                     'enctype' => 'multipart/form-data',
                 ]) !!}
 
+
+
                 <div class="form-group my-2">
                     {!! Form::label('nama_rembes', 'Name Rembes:') !!}
                     {!! Form::text('nama_rembes', null, [
@@ -67,6 +69,36 @@
                     {!! Form::label('deskripsi', 'Description (Opsional):') !!}
                     {!! Form::textarea('deskripsi', null, ['class' => 'form-control', 'rows' => '3']) !!}
                 </div>
+
+                <div class="form-group my-2">
+                    <label for="foto_bukti">Photo Evidence:</label>
+                    <input type="file" class="form-control mb-3" id="foto_bukti" name="foto_bukti[]" multiple>
+                    <div>
+                        @if ($rembes_image_item && $rembes_image_item->foto_bukti)
+                            @foreach (explode(',', $rembes_image_item->foto_bukti) as $fileName)
+                                @if (in_array(pathinfo($fileName, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                    <a href="{{ asset('storage/foto_bukti/' . $fileName) }}" target="_blank">
+                                        <img src="{{ asset('storage/foto_bukti/' . $fileName) }}"
+                                            alt="{{ $rembes_item->id }}" class="mx-2 rounded border" width="75">
+                                    </a>
+                                @else
+                                    <span class="badge btn-secondary p-2">
+                                        <i class="far fa-file-archive"></i>
+                                        {{ $fileName }}
+                                    </span>
+                                @endif
+                            @endforeach
+                        @else
+                            <span class="badge btn-danger">
+                                <i class="far fa-times-circle"></i>
+                                No Image
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+
+
 
                 <div class="form-group my-3 text-center">
                     <button type="submit" id="buttonText" class="btn btn-primary" onclick="disableButton(this);">

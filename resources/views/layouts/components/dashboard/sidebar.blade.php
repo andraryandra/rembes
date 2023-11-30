@@ -113,18 +113,6 @@
             </li>
         @endcan
 
-
-        @can('submission-list')
-            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
-                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <i data-feather="check-square"></i>
-                        <span>Submission</span>
-                    </div>
-                </a>
-            </li>
-        @endcan
-
         @can('rembes-list')
             <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
@@ -135,6 +123,19 @@
                 </a>
             </li>
         @endcan
+
+        @can('submission-list')
+            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="file-text"></i>
+                        <span>Submission Approval</span>
+                    </div>
+                </a>
+            </li>
+        @endcan
+
+
 
         <li class="menu {{ $active == 'report-rembes' ? 'active' : '' }}">
             <a href="{{ url('#') }}" aria-expanded="false" class="dropdown-toggle">
