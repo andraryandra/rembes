@@ -56,24 +56,30 @@ class RembesController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
+        // dd($request->all());
         $this->validate(
             $request,
             [
                 'user_id' => 'required',
+                'name' => 'required',
                 'category_tahun_id' => 'required',
                 'tanggal_ticket' => 'required|date',
                 'status' => 'nullable',
             ],
             [
                 'user_id.required' => 'User harus diisi',
+                'name.required' => 'Nama Reimburse harus diisi',
                 'category_tahun_id.required' => 'Category Tahun harus diisi',
                 'tanggal_ticket.required' => 'Tanggal harus diisi',
                 'tanggal_ticket.date' => 'Tanggal harus berupa tanggal',
             ]
         );
 
+        // dd($request);
+
         $rembes = \App\Models\Rembes::create([
             'user_id' => $request->user_id,
+            'name' => $request->name,
             'category_tahun_id' => $request->category_tahun_id,
             'tanggal_ticket' => $request->tanggal_ticket,
             'status' => 'PENDING',
@@ -86,7 +92,88 @@ class RembesController extends Controller
         }
     }
 
-    // public function store(Request $request): \Illuminate\Http\RedirectResponse
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id): \Illuminate\Contracts\View\View
+    {
+        // dd("oke");
+        $data = [
+            'rembes' => \App\Models\Rembes::findOrFail($id),
+            'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
+            'active' => 'rembes',
+        ];
+
+        return view('pages.s_user.karyawan.m_rembes.show',  $data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id): \Illuminate\Contracts\View\View
+    {
+        $data = [
+            'rembes' => \App\Models\Rembes::findOrFail($id),
+            'categories' => \App\Models\CategoryTahun::get(),
+            'active' => 'rembes',
+        ];
+
+        return view('pages.s_user.karyawan.m_rembes.edit',  $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate(
+            $request,
+            [
+                'user_id' => 'required',
+                'name' => 'required',
+                'category_tahun_id' => 'required',
+                'tanggal_ticket' => 'required|date',
+                'status' => 'nullable',
+            ],
+            [
+                'user_id.required' => 'User harus diisi',
+                'name.required' => 'Nama Reimburse harus diisi',
+                'category_tahun_id.required' => 'Category Tahun harus diisi',
+                'tanggal_ticket.required' => 'Tanggal harus diisi',
+                'tanggal_ticket.date' => 'Tanggal harus berupa tanggal',
+            ]
+        );
+
+        $rembes = \App\Models\Rembes::find($id);
+
+        if (!$rembes) {
+            return redirect()->route('dashboard.rembes.index')->with(['error' => 'Data tidak ditemukan']);
+        }
+
+        $rembes->user_id = $request->user_id;
+        $rembes->name = $request->name;
+        $rembes->category_tahun_id = $request->category_tahun_id;
+        $rembes->tanggal_ticket = $request->tanggal_ticket;
+        $rembes->status = $request->status ?? 'PENDING'; // Menggunakan nilai default jika status tidak ada dalam request
+
+        if ($rembes->save()) {
+            return redirect()->route('dashboard.rembes.index')->with(['success' => 'Data Berhasil Diperbarui!']);
+        } else {
+            return redirect()->route('dashboard.rembes.index')->with(['error' => 'Data Gagal Diperbarui!']);
+        }
+    }
+
+    // public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     // {
     //     $this->validate(
     //         $request,
@@ -97,7 +184,6 @@ class RembesController extends Controller
     //             'status' => 'required|in:PENDING,APPROVED,REJECTED',
     //             'deskripsi' => 'nullable|string|max:100',
     //             'foto_bukti.*' => 'nullable|max:2048',
-
     //         ],
     //         [
     //             'nama.required' => 'Nama harus diisi',
@@ -125,111 +211,25 @@ class RembesController extends Controller
     //             $uploadedFileNames[] = $fileName;
     //         }
 
+    //         // Hapus foto lama
+    //         $oldFotoBukti = explode(',', $data['foto_bukti']);
+    //         foreach ($oldFotoBukti as $oldFileName) {
+    //             Storage::delete('public/foto_bukti/' . $oldFileName);
+    //         }
+
     //         $data['foto_bukti'] = implode(',', $uploadedFileNames); // Menggabungkan array menjadi string
+    //     } else {
+    //         // Jika foto_bukti tidak diupdate, gunakan foto lama
+    //         unset($data['foto_bukti']);
     //     }
 
-    //     \App\Models\Rembes::create($data);
 
-    //     return redirect()->route('dashboard.rembes-item.create')
-    //         ->with('success', 'Rembes created successfully.');
+    //     $rembes = \App\Models\Rembes::findOrFail($id);
+    //     $rembes->update($data);
+
+    //     return redirect()->route('dashboard.rembes.index')
+    //         ->with('success', 'Rembes updated successfully.');
     // }
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id): \Illuminate\Contracts\View\View
-    {
-        $data = [
-            'rembes' => \App\Models\Rembes::findOrFail($id),
-            'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
-            'active' => 'rembes',
-        ];
-
-        return view('pages.s_user.karyawan.m_rembes.show',  $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id): \Illuminate\Contracts\View\View
-    {
-        $data = [
-            'rembes' => \App\Models\Rembes::findOrFail($id),
-            'active' => 'rembes',
-        ];
-
-        return view('pages.s_user.karyawan.m_rembes.edit',  $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
-    {
-        $this->validate(
-            $request,
-            [
-                'nama' => 'required',
-                'nominal' => 'required|numeric',
-                'tanggal' => 'required|date',
-                'status' => 'required|in:PENDING,APPROVED,REJECTED',
-                'deskripsi' => 'nullable|string|max:100',
-                'foto_bukti.*' => 'nullable|max:2048',
-            ],
-            [
-                'nama.required' => 'Nama harus diisi',
-                'nominal.required' => 'Nominal harus diisi',
-                'nominal.numeric' => 'Nominal harus berupa angka',
-                'tanggal.required' => 'Tanggal harus diisi',
-                'tanggal.date' => 'Tanggal harus berupa tanggal',
-                'status.required' => 'Status harus diisi',
-                'status.in' => 'Status harus diisi dengan PENDING, APPROVED, atau REJECTED',
-                'deskripsi.max' => 'Deskripsi maksimal 100 karakter',
-                'foto_bukti.*.max' => 'Foto bukti maksimal 2MB',
-            ]
-        );
-
-        $data = $request->all();
-
-        // Proses file foto_bukti
-        if ($request->hasFile('foto_bukti')) {
-            $uploadedFiles = $request->file('foto_bukti');
-            $uploadedFileNames = [];
-
-            foreach ($uploadedFiles as $file) {
-                $fileName = Str::random(10) . '.' . $file->getClientOriginalExtension();
-                Storage::putFileAs('public/foto_bukti', $file, $fileName);
-                $uploadedFileNames[] = $fileName;
-            }
-
-            // Hapus foto lama
-            $oldFotoBukti = explode(',', $data['foto_bukti']);
-            foreach ($oldFotoBukti as $oldFileName) {
-                Storage::delete('public/foto_bukti/' . $oldFileName);
-            }
-
-            $data['foto_bukti'] = implode(',', $uploadedFileNames); // Menggabungkan array menjadi string
-        } else {
-            // Jika foto_bukti tidak diupdate, gunakan foto lama
-            unset($data['foto_bukti']);
-        }
-
-
-        $rembes = \App\Models\Rembes::findOrFail($id);
-        $rembes->update($data);
-
-        return redirect()->route('dashboard.rembes.index')
-            ->with('success', 'Rembes updated successfully.');
-    }
 
     /**
      * Remove the specified resource from storage.

@@ -5,7 +5,7 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Reimburse</li>
+                <li class="breadcrumb-item active" aria-current="page">Submission</li>
             </ol>
         </nav>
     </div>
@@ -16,7 +16,7 @@
     <div class="searchable-container">
         <div class="switch align-self-center">
 
-            @can('rembes-create')
+            {{-- @can('rembes-create')
                 <a class="btn btn-primary" href="{{ route('dashboard.rembes.create') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -28,7 +28,7 @@
                     </svg>
                     Add New Rembes
                 </a>
-            @endcan
+            @endcan --}}
         </div>
 
         <div class="row layout-top-spacing">
@@ -47,7 +47,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rembes as $key => $rembes_list)
+                            {{-- @foreach ($rembes as $key => $rembes_list)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $rembes_list->name }}</td>
@@ -109,7 +109,7 @@
                                         @endcan
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -122,8 +122,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    {{-- {!! $roles->render() !!} --}}
-
                 </div>
             </div>
         </div>

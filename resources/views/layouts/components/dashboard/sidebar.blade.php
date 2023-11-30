@@ -99,7 +99,7 @@
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" class="feather feather-minus">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg><span>MENU REMBES LIST</span></div>
+                </svg><span>MENU REIMBURSE LIST</span></div>
         </li>
 
         @can('category-tahun-list')
@@ -114,12 +114,23 @@
         @endcan
 
 
+        @can('submission-list')
+            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="check-square"></i>
+                        <span>Submission</span>
+                    </div>
+                </a>
+            </li>
+        @endcan
+
         @can('rembes-list')
             <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <i data-feather="check-square"></i>
-                        <span>Data Rembes</span>
+                        <span>Data Reimburse</span>
                     </div>
                 </a>
             </li>
