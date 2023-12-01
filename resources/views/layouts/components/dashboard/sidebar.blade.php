@@ -116,10 +116,10 @@
         @can('rembes-list')
             <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
-                    <<<<<<< HEAD <div class="">
+                    <div class="">
                         <i data-feather="credit-card"></i>
                         <span>Data Reimburse</span>
-                        </div>
+                    </div>
                 </a>
             </li>
         @endcan
@@ -127,8 +127,6 @@
         @can('submission-list')
             <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
-                    =======
-                    >>>>>>> 1f74b408ba7d35f40ac425574fd98d1a1119db00
                     <div class="">
                         <i data-feather="check-circle"></i>
                         <span>Submission</span>
