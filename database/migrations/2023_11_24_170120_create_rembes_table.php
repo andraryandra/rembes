@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete('SET NULL')->cascadeOnUpdate('CASCADE');
             $table->foreignId('category_tahun_id')->constrained('category_tahuns')->cascadeOnDelete('SET NULL')->cascadeOnUpdate('CASCADE');
             $table->date('tanggal_ticket');
-            $table->enum('status', ['PENDING', 'APPROVED', 'REJECTED'])->default('PENDING');
+            $table->enum('status', ['PENDING', 'APPROVED', 'SUCCESS', 'REJECTED'])->default('PENDING');
+            $table->longText('remarks')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

@@ -29,6 +29,7 @@
     <div class="searchable-container">
         <div class="switch align-self-center">
 
+
             @can('rembes-item-create')
                 <a class="btn btn-primary" href="{{ route('dashboard.rembes-item.create', $rembes->id) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -55,6 +56,7 @@
                                 <th>Reimburse Item</th>
                                 <th>Nominal</th>
                                 <th>Date Reimburse</th>
+                                <th>Image</th>
                                 <th>Description</th>
                                 <th width="280px"></th>
                             </tr>
@@ -72,18 +74,34 @@
                                         {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
                                     </td>
                                     <td>
+                                        @if ($rembes_item->foto_bukti)
+                                            @foreach (explode(',', $rembes_item->foto_bukti) as $file)
+                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                    <a href="{{ asset('storage/foto_bukti/' . $file) }}" target="_blank">
+                                                        <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                            alt="{{ $rembes_item->id }}" class="mx-2 rounded border"
+                                                            width="75">
+                                                    </a>
+                                                @else
+                                                    <span class="badge btn-info">
+                                                        <i class="far fa-file-archive"></i>
+                                                        {{ $file }}
+                                                    </span>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <span class="badge btn-danger">
+                                                <i class="far fa-times-circle"></i>
+                                                No Image
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         {{ Str::limit($rembes_item->deskripsi, 50, '...') ?? 'No Description' }}
                                     </td>
 
                                     <td>
-                                        {{-- @can('rembes-item-list')
-                                            <a class="badge
-                                            badge-light-info text-start"
-                                                href="{{ route('dashboard.rembes-item.show', $rembes_item->id) }}">
-                                                <i data-feather="eye"></i>
-                                                View
-                                            </a>
-                                        @endcan --}}
+
                                         @can('rembes-item-edit')
                                             <a class="badge badge-light-primary text-start me-2"
                                                 href="{{ route('dashboard.rembes-item.edit', ['rembes' => $rembes->id, 'id' => $rembes_item->id]) }}">
@@ -97,12 +115,11 @@
                                                 'method' => 'DELETE',
                                                 'route' => ['dashboard.rembes-item.destroy', ['rembes' => $rembes->id, 'id' => $rembes_item->id]],
                                                 'style' => 'display:inline',
-                                                'onsubmit' => 'return confirm("Are you sure you want to delete this user?");',
                                             ]) !!}
                                             {!! Form::button('<i class="far fa-trash-alt"></i> Delete', [
                                                 'type' => 'submit',
                                                 'class' => 'badge badge-light-danger text-start mx-3',
-                                                'onclick' => 'return confirm("Are you sure you want to delete this user?");',
+                                                'onclick' => 'return confirm("Are you sure you want to delete this rembes item?");',
                                             ]) !!}
                                             {!! Form::close() !!}
                                         @endcan
@@ -120,28 +137,11 @@
                                 <th width="280px"></th>
                             </tr>
                         </tfoot>
+                        </tfoot>
                     </table>
+
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-{{--
-                                    <td>
-                                        @if ($rembes_list->foto_bukti)
-                                            @foreach (explode(',', $rembes_list->foto_bukti) as $file)
-                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                                                    <img src="{{ asset('storage/foto_bukti/' . $file) }}"
-                                                        alt="{{ $rembes_list->id }}" class="mx-2 rounded" width="100">
-                                                @else
-                                                    <span class="badge btn-info">
-                                                        <i class="far fa-file-archive"></i>
-                                                        {{ $file }}
-                                                    </span>
-                                                @endif
-                                            @endforeach
-                                        @else
-                                            Tidak ada foto bukti
-                                        @endif
-                                    </td> --}}

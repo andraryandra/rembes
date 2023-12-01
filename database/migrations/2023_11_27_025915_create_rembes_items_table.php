@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama_rembes');
             $table->decimal('nominal', 10, 2);
             $table->date('tanggal_rembes');
+            $table->string('foto_bukti')->nullable();
             $table->longText('deskripsi')->nullable();
 
 

@@ -1,4 +1,3 @@
-<!--  BEGIN NAVBAR  -->
 <div class="header-container container-xxl">
     <header class="header navbar navbar-expand-sm expand-header">
 
@@ -12,31 +11,11 @@
             </svg>
         </a>
 
-        {{-- <div class="search-animated toggle-search">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-search">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <form class="form-inline search-full form-inline search" role="search">
-                <div class="search-bar">
-                    <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="feather feather-x search-close">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </div>
-            </form>
-            <span class="badge badge-secondary">Ctrl + /</span>
-        </div> --}}
-        <div class="search-animated toggle-search">
-            PT. SATYA AMARTA PRIMA
-        </div>
-
         <ul class="navbar-item flex-row ms-lg-auto ms-0">
+            <li class="nav-item theme-toggle-item">
+                <div class="theme-toggle"></div>
+            </li>
+
             <li class="nav-item dropdown notification-dropdown">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -143,8 +122,10 @@
                                     </rect>
                                     <rect x="2" y="14" width="20" height="8" rx="2" ry="2">
                                     </rect>
-                                    <line x1="6" y1="6" x2="6" y2="6"></line>
-                                    <line x1="6" y1="18" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="6" y2="6">
+                                    </line>
+                                    <line x1="6" y1="18" x2="6" y2="18">
+                                    </line>
                                 </svg>
                                 <div class="media-body">
                                     <div class="data-info">
@@ -174,8 +155,10 @@
                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                     <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <line x1="16" y1="13" x2="8" y2="13">
+                                    </line>
+                                    <line x1="16" y1="17" x2="8" y2="17">
+                                    </line>
                                     <polyline points="10 9 9 9 8 9"></polyline>
                                 </svg>
                                 <div class="media-body">
@@ -253,9 +236,7 @@
                             </div>
                             <div class="media-body">
                                 <h5>{{ Auth::user()->name }}</h5>
-                                <p>
-                                    {{ Auth::user()->roles->first()->name }}
-                                </p>
+                                <p>{{ Auth::user()->roles->first()->name }}</p>
                             </div>
                         </div>
                     </div>
@@ -270,32 +251,9 @@
                         </a>
                     </div>
                     <div class="dropdown-item">
-                        <a href="app-mailbox.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-inbox">
-                                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                                <path
-                                    d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z">
-                                </path>
-                            </svg> <span>Inbox</span>
-                        </a>
-                    </div>
-                    <div class="dropdown-item">
-                        <a href="auth-boxed-lockscreen.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2">
-                                </rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg> <span>Lock Screen</span>
-                        </a>
-                    </div>
-                    <div class="dropdown-item">
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
+                                 document.getElementById('logout-form').submit();">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
@@ -314,4 +272,3 @@
         </ul>
     </header>
 </div>
-<!--  END NAVBAR  -->

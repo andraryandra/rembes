@@ -11,7 +11,7 @@
                 <a href="" class="nav-link"> SAMARA </a>
             </div> --}}
         </div>
-        {{-- <div class="nav-item sidebar-toggle">
+        <div class="nav-item sidebar-toggle">
             <div class="btn-toggle sidebarCollapse">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -20,7 +20,7 @@
                     <polyline points="18 17 13 12 18 7"></polyline>
                 </svg>
             </div>
-        </div> --}}
+        </div>
     </div>
 
     <div class="profile-info">
@@ -116,10 +116,10 @@
         @can('rembes-list')
             <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
+                    <<<<<<< HEAD <div class="">
                         <i data-feather="credit-card"></i>
                         <span>Data Reimburse</span>
-                    </div>
+                        </div>
                 </a>
             </li>
         @endcan
@@ -127,6 +127,8 @@
         @can('submission-list')
             <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
+                    =======
+                    >>>>>>> 1f74b408ba7d35f40ac425574fd98d1a1119db00
                     <div class="">
                         <i data-feather="check-circle"></i>
                         <span>Submission</span>
@@ -134,6 +136,20 @@
                 </a>
             </li>
         @endcan
+
+        @can('submission-approved-list')
+            <li class="menu {{ $active == 'submission-approved' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission-approved.index') }}" aria-expanded="false"
+                    class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="file-text"></i>
+                        <span>Submission Approval</span>
+                    </div>
+                </a>
+            </li>
+        @endcan
+
+
 
         <li class="menu {{ $active == 'report-rembes' ? 'active' : '' }}">
             <a href="{{ url('#') }}" aria-expanded="false" class="dropdown-toggle">

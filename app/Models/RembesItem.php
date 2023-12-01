@@ -16,6 +16,7 @@ class RembesItem extends Model
         'nama_rembes',
         'nominal',
         'tanggal_rembes',
+        'foto_bukti',
         'deskripsi',
     ];
 }
