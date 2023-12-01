@@ -17,6 +17,7 @@ class RembesApprovalController extends Controller
 
     public function index(): \Illuminate\Contracts\View\View
     {
+        // dd('test');
         $data = [
             'rembes' => \App\Models\Rembes::get(),
             'active' => 'submission-approved',
