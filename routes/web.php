@@ -47,8 +47,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
 
     Route::resource('category-tahun', \App\Http\Controllers\Web\CategoryTahun\CategoryTahunController::class);
 
-    Route::controller(\App\Http\Controllers\Web\Submission\SubmissionController::class)->group(function () {
-        Route::get('submission', 'index')->name('submission.index');
+    Route::controller(\App\Http\Controllers\Web\Rembes\RembesApprovalController::class)->group(function () {
+        Route::get('submission-approved', 'index')->name('submission-approved.index');
         // Route::get('submission/create', 'create')->name('submission.create');
         // Route::post('submission/store', 'store')->name('submission.store');
         // Route::get('submission/{id}', 'show')->name('submission.show');

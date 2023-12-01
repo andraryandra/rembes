@@ -39,10 +39,10 @@ class PermissionTableSeeder extends Seeder
             'rembes-item-edit',
             'rembes-item-delete',
 
-            'submission-list',
-            'submission-create',
-            'submission-edit',
-            'submission-delete',
+            'submission-approved-list',
+            'submission-approved-create',
+            'submission-approved-edit',
+            'submission-approved-delete',
         ];
 
         foreach ($permissions as $permission) {

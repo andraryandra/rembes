@@ -124,9 +124,10 @@
             </li>
         @endcan
 
-        @can('submission-list')
-            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
-                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
+        @can('submission-approved-list')
+            <li class="menu {{ $active == 'submission-approved' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission-approved.index') }}" aria-expanded="false"
+                    class="dropdown-toggle">
                     <div class="">
                         <i data-feather="file-text"></i>
                         <span>Submission Approval</span>
