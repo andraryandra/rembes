@@ -113,16 +113,16 @@ class SubmissionController extends Controller
     //  * @param  \App\Product  $product
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function edit($id): \Illuminate\Contracts\View\View
-    // {
-    //     $data = [
-    //         'rembes' => \App\Models\Rembes::findOrFail($id),
-    //         'categories' => \App\Models\CategoryTahun::get(),
-    //         'active' => 'rembes',
-    //     ];
+    public function edit($id): \Illuminate\Contracts\View\View
+    {
+        $data = [
+            'rembes' => \App\Models\Rembes::findOrFail($id),
+            'rembes_item' => \App\Models\RembesItem::get(),
+            'active' => 'submission',
+        ];
 
-    //     return view('pages.s_user.karyawan.m_rembes.edit',  $data);
-    // }
+        return view('pages.s_user.karyawan.m_submission.edit',  $data);
+    }
 
     // /**
     //  * Update the specified resource in storage.

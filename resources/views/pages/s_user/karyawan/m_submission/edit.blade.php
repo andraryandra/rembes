@@ -6,8 +6,8 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">User</li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Rembes</li>
+                <li class="breadcrumb-item active" aria-current="page">Submission</li>
+                <li class="breadcrumb-item active" aria-current="page">Submission Reimbursement</li>
             </ol>
         </nav>
     </div>
@@ -17,7 +17,7 @@
         <div class="col-lg-12 margin-tb">
 
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('dashboard.rembes.index') }}">
+                <a class="btn btn-primary" href="{{ route('dashboard.submission.index') }}">
                     <i class="far fa-arrow-alt-circle-left"></i>
                     Back
                 </a>
@@ -27,159 +27,67 @@
 
     @include('layouts.partials.alert-prompt.alert')
 
-    <div class="card ">
-        <div class="row m-2">
-            <div class="card-body">
-                <form action="{{ route('dashboard.rembes.update', $rembes->id) }}" method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group my-2">
-                        <label for="user_id">User:</label>
-                        <input style="display: none;" type="text" name="user_id" id="user_id" class="form-control"
-                            value="{{ $rembes->user_id }}">
-                        <input type="text" name="nama_user" id="nama_user" class="form-control" disabled
-                            value="{{ $rembes->user->name }}">
-                    </div>
-
-                    <div class="form-group my-2">
-                        <label for="user_id">Reimbursement Name:</label>
-                        <input type="text" name="name" id="nama" class="form-control" value="{{ $rembes->name }}"
-                            placeholder="Enter the reimbursement name">
-                    </div>
-
-                    <div class="form-group my-2">
-                        <label for="category_tahun_id">Category:</label>
-                        <select class="form-control" name="category_tahun_id" id="category_tahun_id" required>
-                            <option disabled selected>-- Select Category --</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    @if ($category->id == $rembes->category_tahun_id) selected
-                                        @else @endif>
-                                    {{ $category->slug }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group my-2">
-                        <label for="tanggal_ticket">Tanggal:</label>
-                        <input type="date" name="tanggal_ticket" id="tanggal_ticket" class="form-control"
-                            value="{{ $rembes->tanggal_ticket }}" required>
-                    </div>
-
-                    <div class="form-group my-3 text-center">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="far fa-save"></i>
-                            Save
-                        </button>
-                    </div>
-                </form>
-                {{-- {!! Form::model($rembes, [
-                    'route' => ['dashboard.rembes.update', $rembes->id],
-                    'method' => 'PUT',
-                    'enctype' => 'multipart/form-data',
-                ]) !!}
-                <div class="form-group my-2">
-                    {!! Form::label('nama', 'Nama:') !!}
-                    {!! Form::text('nama', null, ['class' => 'form-control', 'placeholder' => 'Entry your name', 'required']) !!}
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Amount of money</label>
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">Rp.</span>
-                        <input type="text" name="nominal" id="input-harga" class="form-control"
-                            placeholder="Entry your amount of money"
-                            value="{{ number_format($rembes->nominal, 0, ',', '.') }}">
+    <div class="searchable-container">
+        <div class="row layout-top-spacing">
+            <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                <div class="widget-content widget-content-area br-8">
+                    <div class="card bg-transparent">
+                        <div class="card-body">
+                            <table id="zero-config" class="table table-striped dt-table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Reimburse Item</th>
+                                        <th>Nominal</th>
+                                        <th>Date Reimburse</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($rembes_item as $key => $rembes_item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $rembes_item->nama_rembes }}</td>
+                                            <td>Rp. {{ number_format($rembes_item->nominal, 0, ',', '.') }}</td>
+                                            <td>
+                                                @php
+                                                    $tanggal = \Carbon\Carbon::parse($rembes_item->tanggal_rembes)->locale('id_ID');
+                                                @endphp
+                                                {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                            </td>
+                                            <td>
+                                                {{ Str::limit($rembes_item->deskripsi, 50, '...') ?? 'No Description' }}
+                                            </td>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name Rembes</th>
+                                        <th>Nominal</th>
+                                        <th>Date Rembes</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="mt-3">
+                                <form action="{{ route('dashboard.submission.update', $rembes->id) }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-group">
+                                        <label for="user_id">User:</label>
+                                        <input style="display: none;" type="text" name="user_id" id="user_id"
+                                            class="form-control" value="{{ Auth::user()->id }}">
+                                        <input type="text" name="nama_user" id="nama_user" class="form-control" disabled
+                                            value="{{ Auth::user()->name }}">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('tanggal', 'Date:') !!}
-                    {!! Form::date('tanggal', $rembes->tanggal, ['class' => 'form-control', 'required']) !!}
-                </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('status', 'Status:') !!}
-                    {!! Form::select(
-                        'status',
-                        ['PENDING' => 'PENDING', 'APPROVED' => 'APPROVED', 'REJECTED' => 'REJECTED'],
-                        $rembes->status,
-                        ['class' => 'form-select', 'required'],
-                    ) !!}
-                </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('deskripsi', 'Description (Optional):') !!}
-                    {!! Form::textarea('deskripsi', $rembes->deskripsi, ['class' => 'form-control', 'rows' => '3']) !!}
-                </div>
-
-                <div class="form-group my-2">
-                    {!! Form::label('foto_bukti', 'Photo Evidence (Optional):') !!}
-                    {!! Form::file('foto_bukti[]', ['class' => 'form-control-file border rounded', 'multiple' => 'multiple']) !!}
-                </div>
-
-
-                <div class="form-group my-3 text-center">
-                    <button type="submit" id="buttonText" class="btn btn-primary" onclick="disableButton(this);">
-                        <i class="far fa-save"></i>
-                        Save
-                    </button>
-                </div>
-                {!! Form::close() !!} --}}
             </div>
         </div>
     </div>
-    {{-- @push('script')
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#category_id option[value=""]').css('display', 'none');
-                $('#status option[value=""]').css('display', 'none');
-            });
-        </script>
-        <script>
-            function disableButton(button) {
-                button.disabled = true;
-                var buttonText = document.getElementById("buttonText");
-                buttonText.innerText = "Publishing...";
-
-                // Mengganti format angka sebelum submit
-                var inputHarga = document.getElementById('input-harga');
-                var nilaiInput = inputHarga.value.replace(/\D/g, '');
-                inputHarga.value = nilaiInput;
-
-                // Menjalankan submit form setelah 500ms
-                setTimeout(function() {
-                    button.form.submit();
-                }, 500);
-            }
-        </script>
-
-
-        <script>
-            function formatRupiah(angka) {
-                var rupiah = '';
-                var angkarev = angka.toString().split('').reverse().join('');
-                for (var i = 0; i < angkarev.length; i++)
-                    if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
-                // return 'Rp. ' + rupiah.split('', rupiah.length - 1).reverse().join('');
-                return rupiah.split('', rupiah.length - 1).reverse().join('');
-            }
-
-            var inputHarga = document.getElementById('input-harga');
-            inputHarga.addEventListener('input', function(e) {
-                var nilaiInput = e.target.value.replace(/\D/g, '');
-                var nilaiFormat = formatRupiah(nilaiInput);
-                e.target.value = nilaiFormat;
-            });
-
-            var form = document.querySelector('form');
-            form.addEventListener('submit', function(e) {
-                var inputHarga = document.getElementById('input-harga');
-                var nilaiInput = inputHarga.value.replace(/\D/g, '');
-                inputHarga.value = nilaiInput;
-            });
-        </script>
-    @endpush --}}
 @endsection

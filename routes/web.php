@@ -51,8 +51,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
         // Route::get('submission/create', 'create')->name('submission.create');
         // Route::post('submission/store', 'store')->name('submission.store');
         // Route::get('submission/{id}', 'show')->name('submission.show');
-        // Route::get('submission/{id}/edit', 'edit')->name('submission.edit');
-        // Route::put('submission/{id}', 'update')->name('submission.update');
+        Route::get('submission/{id}/edit', 'edit')->name('submission.edit');
+        Route::put('submission/{id}', 'update')->name('submission.update');
         // Route::delete('submission/delete/{id}', 'destroy')->name('submission.destroy');
     });
 });

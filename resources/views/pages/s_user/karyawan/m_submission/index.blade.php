@@ -39,82 +39,72 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Name </th>
                                 <th>Name Reimburse</th>
-                                <th>Category</th>
+                                <th>Category Tahun</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th width="280px"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($rembes as $key => $rembes_list)
+                            @php
+                                $no = 1;
+                            @endphp
+                            @foreach ($rembes as $data_rembes)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $rembes_list->name }}</td>
-                                    <td>{{ $rembes_list->categoryTahun->nama_category_tahun }}</td>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $data_rembes->user->name }}</td>
+                                    <td>{{ $data_rembes->name }}</td>
+                                    <td>{{ $data_rembes->categoryTahun->slug }}</td>
+                                    <td>{{ $data_rembes->created_at->format('d/m/Y') }}</td>
                                     <td>
-                                        @php
-                                            $tanggal = \Carbon\Carbon::parse($rembes_list->tanggal_ticket)->locale('id_ID');
-                                        @endphp
-                                        {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                        @if ($data_rembes->status == 'PENDING')
+                                            <span class="badge badge-warning">{{ $data_rembes->status }}</span>
+                                        @elseif($data_rembes->status == 'APPROVED')
+                                            <span class="badge badge-success">{{ $data_rembes->status }}</span>
+                                        @elseif($data_rembes->status == 'REJECTED')
+                                            <span class="badge badge-danger">{{ $data_rembes->status }}</span>
+                                        @else
+                                            <span class="badge badge-secondary">{{ $data_rembes->status }}</span>
+                                        @endif
                                     </td>
                                     <td>
-                                        <span
-                                            class="badge
-                                            @if ($rembes_list->status == 'PENDING') btn-warning
-                                            @elseif ($rembes_list->status == 'APPROVED')
-                                            btn-success
-                                            @elseif ($rembes_list->status == 'REJECTED')
-                                            btn-danger @endif
-                                            text-start">
-                                            {{ $rembes_list->status }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @can('rembes-item-list')
-                                            <a class="badge
-                                            badge-light-warning text-start"
-                                                href="{{ route('dashboard.rembes-item.index', $rembes_list->id) }}">
-                                                <i data-feather="database"></i>
-                                                List Reimburse
-                                            </a>
-                                        @endcan
-                                        @can('rembes-list')
+                                        {{-- @can('submission-list')
                                             <a class="badge
                                             badge-light-info text-start"
-                                                href="{{ route('dashboard.rembes.show', $rembes_list->id) }}">
+                                                href="#">
                                                 <i data-feather="eye"></i>
                                                 View
                                             </a>
-                                        @endcan
-                                        @can('rembes-edit')
+                                        @endcan --}}
+                                        @can('submission-edit')
                                             <a class="badge badge-light-primary text-start me-2"
-                                                href="{{ route('dashboard.rembes.edit', $rembes_list->id) }}">
+                                                href="{{ route('dashboard.submission.edit', $data_rembes->id) }}">
                                                 <i class="far fa-edit"></i>
-                                                Edit</a>
+                                                Update</a>
                                         @endcan
-                                        @can('rembes-delete')
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'route' => ['dashboard.rembes.destroy', $rembes_list->id],
-                                                'style' => 'display:inline',
-                                                'onsubmit' => 'return confirm("Are you sure you want to delete this user?");',
-                                            ]) !!}
-                                            {!! Form::button('<i class="far fa-trash-alt"></i> Delete', [
-                                                'type' => 'submit',
-                                                'class' => 'badge badge-light-danger text-start mx-3',
-                                                'onclick' => 'return confirm("Are you sure you want to delete this user?");',
-                                            ]) !!}
-                                            {!! Form::close() !!}
+                                        @can('submission-delete')
+                                            <form method="POST" action="#" style="display:inline"
+                                                onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="badge badge-light-danger text-start mx-3"
+                                                    onclick="return confirm('Are you sure you want to delete this user?');">
+                                                    <i class="far fa-trash-alt"></i> Delete
+                                                </button>
+                                            </form>
                                         @endcan
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
+                                <th>Name </th>
+                                <th>Name Reimburse</th>
                                 <th>Category</th>
                                 <th>Date</th>
                                 <th>Status</th>

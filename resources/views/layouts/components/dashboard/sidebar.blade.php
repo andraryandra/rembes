@@ -113,24 +113,23 @@
             </li>
         @endcan
 
-
-        @can('submission-list')
-            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
-                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
+        @can('rembes-list')
+            <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <i data-feather="check-square"></i>
-                        <span>Submission</span>
+                        <i data-feather="credit-card"></i>
+                        <span>Data Reimburse</span>
                     </div>
                 </a>
             </li>
         @endcan
 
-        @can('rembes-list')
-            <li class="menu {{ $active == 'rembes' ? 'active' : '' }}">
-                <a href="{{ route('dashboard.rembes.index') }}" aria-expanded="false" class="dropdown-toggle">
+        @can('submission-list')
+            <li class="menu {{ $active == 'submission' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission.index') }}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <i data-feather="check-square"></i>
-                        <span>Data Reimburse</span>
+                        <i data-feather="check-circle"></i>
+                        <span>Submission</span>
                     </div>
                 </a>
             </li>
