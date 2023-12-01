@@ -1,5 +1,29 @@
 @extends('layouts.app')
 @section('content')
+    <!-- BREADCRUMB -->
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Submission Approved</li>
+                <li class="breadcrumb-item active" aria-current="page">Submission Invoice</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- /BREADCRUMB -->
+
+    <div class="row my-3">
+        <div class="col-lg-12 margin-tb">
+
+            <div class="pull-right">
+                <a class="btn btn-primary" href="{{ route('dashboard.submission-approved.index') }}">
+                    <i class="far fa-arrow-alt-circle-left"></i>
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="row invoice layout-top-spacing layout-spacing">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
@@ -48,8 +72,6 @@
                                                             <span class="inv-date">
                                                                 {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}</span>
                                                         </p>
-                                                        {{-- <p class="inv-due-date"><span class="inv-title">Due Date : </span>
-                                                            <span class="inv-date">26 Mar 2022</span> --}}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -93,7 +115,7 @@
                                                     <table class="table">
                                                         <thead class="">
                                                             <tr>
-                                                                <th scope="col">S.No</th>
+                                                                <th scope="col">No</th>
                                                                 <th scope="col">Nama Rembes</th>
                                                                 <th class="text-end" scope="col">Nominal</th>
                                                                 <th class="text-end" scope="col">Tanggal Rembes</th>
