@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row invoice layout-top-spacing layout-spacing">
+    {{-- <div class="row invoice layout-top-spacing layout-spacing">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
             <div class="doc-container">
@@ -47,9 +47,6 @@
 
                                                             <span class="inv-date">
                                                                 {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}</span>
-                                                        </p>
-                                                        {{-- <p class="inv-due-date"><span class="inv-title">Due Date : </span>
-                                                            <span class="inv-date">26 Mar 2022</span> --}}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -233,5 +230,96 @@
 
             </div>
         </div>
+    </div> --}}
+    <!-- BREADCRUMB -->
+    <div class="page-meta">
+        <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse</li>
+                <li class="breadcrumb-item active" aria-current="page">Reimburse Item</li>
+                <li class="breadcrumb-item active" aria-current="page">detail Reimburse Item</li>
+            </ol>
+        </nav>
     </div>
-@endsection
+    <!-- /BREADCRUMB -->
+
+    <div class="row my-3">
+        <div class="col-lg-12 margin-tb">
+
+            <div class="pull-right">
+                <a class="btn btn-primary" href="{{ route('dashboard.rembes-item.index', $rembes->id) }}">
+                    <i class="far fa-arrow-alt-circle-left"></i>
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="searchable-container">
+        <div class="card ">
+            <div class="row m-2">
+                <div class="card-body">
+                    <div class="form-group my-2">
+                        <label for="nama_rembes">Item Name: <span class="text-danger">*</span></label>
+                        <input value="{{ $rembes_item->nama_rembes }}" class="form-control readonly-input" readonly>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Amount of money : <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            <input type="text" name="nominal" value="{{ $rembes_item->nominal }}"
+                                class="form-control readonly-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="tanggal_rembes">Date: <span class="text-danger">*</span></label>
+                        <input value="{{ $rembes_item->tanggal_rembes }}" class="form-control readonly-input" readonly>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="deskripsi">Description (Optional):</label>
+                        <textarea rows="3" class="form-control readonly-input" readonly>{{ $rembes_item->deskripsi }}</textarea>
+                    </div>
+
+                    <div class="form-group my-2">
+                        <label for="foto_bukti">Photo Evidence: <span class="text-danger">*</span></label>
+                        <div class="row">
+                            @foreach (explode(',', $rembes_item->foto_bukti) as $file)
+                                <div class="col-4">
+                                    @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                        <a href="{{ asset('storage/foto_bukti/' . $file) }}" target="_blank">
+                                            <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                alt="{{ $rembes_item->id }}" class="mx-2 rounded border" width="250">
+                                        </a>
+                                    @else
+                                        <span class="badge btn-info">
+                                            <i class="far fa-file-archive"></i>
+                                            {{ $file }}
+                                        </span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- form readonly  -->
+        <style>
+            /* Gaya kustom untuk input yang readonly tanpa background abu-abu */
+            .readonly-input {
+                background-color: transparent !important;
+                /* Atur latar belakang ke transparan */
+                /* border: none; */
+                /* Hilangkan garis tepi */
+                box-shadow: none;
+                /* Hilangkan bayangan kotak */
+                color: black !important;
+                /* Tetapkan warna teks menjadi hitam */
+            }
+        </style>
+    @endsection

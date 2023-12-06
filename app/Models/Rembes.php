@@ -18,6 +18,7 @@ class Rembes extends Model
         'category_tahun_id',
         'tanggal_ticket',
         'status',
+        'description',
     ];
 
     public function user()

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_ticket');
             $table->enum('status', ['PENDING', 'APPROVED', 'SUCCESS', 'REJECTED'])->default('PENDING');
             $table->longText('remarks')->nullable();
+            $table->text('description')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

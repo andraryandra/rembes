@@ -27,65 +27,6 @@ class RembesApprovalController extends Controller
         return view('pages.s_user.manager.m_submission_approved.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create(): \Illuminate\Contracts\View\View
-    // {
-    //     $data = [
-    //         'active' => 'rembes',
-    //         'users' => \App\Models\User::get(),
-    //         'categories' => \App\Models\CategoryTahun::get(),
-    //     ];
-    //     return view('pages.s_user.karyawan.m_rembes.create', $data);
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request): \Illuminate\Http\RedirectResponse
-    // {
-    //     // dd($request->all());
-    //     $this->validate(
-    //         $request,
-    //         [
-    //             'user_id' => 'required',
-    //             'name' => 'required',
-    //             'category_tahun_id' => 'required',
-    //             'tanggal_ticket' => 'required|date',
-    //             'status' => 'nullable',
-    //         ],
-    //         [
-    //             'user_id.required' => 'User harus diisi',
-    //             'name.required' => 'Nama Reimburse harus diisi',
-    //             'category_tahun_id.required' => 'Category Tahun harus diisi',
-    //             'tanggal_ticket.required' => 'Tanggal harus diisi',
-    //             'tanggal_ticket.date' => 'Tanggal harus berupa tanggal',
-    //         ]
-    //     );
-
-    //     // dd($request);
-
-    //     $rembes = \App\Models\Rembes::create([
-    //         'user_id' => $request->user_id,
-    //         'name' => $request->name,
-    //         'category_tahun_id' => $request->category_tahun_id,
-    //         'tanggal_ticket' => $request->tanggal_ticket,
-    //         'status' => 'PENDING',
-    //     ]);
-
-    //     if ($rembes) {
-    //         return redirect()->route('dashboard.rembes.index')->with(['success' => 'Data Berhasil Disimpan!']);
-    //     } else {
-    //         return redirect()->route('dashboard.rembes.index')->with(['error' => 'Data Gagal Disimpan!']);
-    //     }
-    // }
-
     public function show($id): \Illuminate\Contracts\View\View
     {
         // dd("oke");
@@ -99,17 +40,17 @@ class RembesApprovalController extends Controller
         return view('pages.s_user.manager.m_submission_approved.show',  $data);
     }
 
-    public function edit($id): \Illuminate\Contracts\View\View
-    {
-        // dd("oke");
-        $data = [
-            'rembes' => \App\Models\Rembes::findOrFail($id),
-            'categories' => \App\Models\CategoryTahun::get(),
-            'active' => 'submission-approved',
-        ];
+    // public function edit($id): \Illuminate\Contracts\View\View
+    // {
+    //     // dd("oke");
+    //     $data = [
+    //         'rembes' => \App\Models\Rembes::findOrFail($id),
+    //         'categories' => \App\Models\CategoryTahun::get(),
+    //         'active' => 'submission-approved',
+    //     ];
 
-        return view('pages.s_user.manager.m_submission_approved.edit',  $data);
-    }
+    //     return view('pages.s_user.manager.m_submission_approved.edit',  $data);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -118,44 +59,39 @@ class RembesApprovalController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $this->validate(
-    //         $request,
-    //         [
-    //             'user_id' => 'required',
-    //             'name' => 'required',
-    //             'category_tahun_id' => 'required',
-    //             'tanggal_ticket' => 'required|date',
-    //             'status' => 'nullable',
-    //         ],
-    //         [
-    //             'user_id.required' => 'User harus diisi',
-    //             'name.required' => 'Nama Reimburse harus diisi',
-    //             'category_tahun_id.required' => 'Category Tahun harus diisi',
-    //             'tanggal_ticket.required' => 'Tanggal harus diisi',
-    //             'tanggal_ticket.date' => 'Tanggal harus berupa tanggal',
-    //         ]
-    //     );
+    public function update(Request $request, $id)
+    {
+        // dd("oke");
+        // dd($request->all());
+        $this->validate(
+            $request,
+            [
+                'user_id' => 'required',
+                'status' => 'required',
+                'description' => 'nullable',
+            ],
+            [
+                'user_id.required' => 'User harus diisi',
+                'status.required' => 'status harus diisi',
+            ]
+        );
 
-    //     $rembes = \App\Models\Rembes::find($id);
+        $rembes = \App\Models\Rembes::find($id);
 
-    //     if (!$rembes) {
-    //         return redirect()->route('dashboard.rembes.index')->with(['error' => 'Data tidak ditemukan']);
-    //     }
+        if (!$rembes) {
+            return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+        }
 
-    //     $rembes->user_id = $request->user_id;
-    //     $rembes->name = $request->name;
-    //     $rembes->category_tahun_id = $request->category_tahun_id;
-    //     $rembes->tanggal_ticket = $request->tanggal_ticket;
-    //     $rembes->status = $request->status ?? 'PENDING'; // Menggunakan nilai default jika status tidak ada dalam request
+        $rembes->user_id = $request->user_id;
+        $rembes->status = $request->status;
+        $rembes->description = $request->description;
 
-    //     if ($rembes->save()) {
-    //         return redirect()->route('dashboard.rembes.index')->with(['success' => 'Data Berhasil Diperbarui!']);
-    //     } else {
-    //         return redirect()->route('dashboard.rembes.index')->with(['error' => 'Data Gagal Diperbarui!']);
-    //     }
-    // }
+        if ($rembes->save()) {
+            return redirect()->route('dashboard.submission-approved.index')->with(['success' => 'Data Berhasil Diperbarui!']);
+        } else {
+            return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data Gagal Diperbarui!']);
+        }
+    }
 
     // public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     // {

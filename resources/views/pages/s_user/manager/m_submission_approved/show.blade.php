@@ -40,6 +40,7 @@
                                         <th>Reimburse Item</th>
                                         <th>Nominal</th>
                                         <th>Date Reimburse</th>
+                                        <th>Image</th>
                                         <th>Description</th>
                                     </tr>
                                 </thead>
@@ -56,6 +57,30 @@
                                                 {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
                                             </td>
                                             <td>
+                                                @if ($rembes_item->foto_bukti)
+                                                    @foreach (explode(',', $rembes_item->foto_bukti) as $file)
+                                                        @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                            <a href="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                                target="_blank">
+                                                                <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                                    alt="{{ $rembes_item->id }}" class="mx-2 rounded border"
+                                                                    width="75">
+                                                            </a>
+                                                        @else
+                                                            <span class="badge btn-info">
+                                                                <i class="far fa-file-archive"></i>
+                                                                {{ $file }}
+                                                            </span>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <span class="badge btn-danger">
+                                                        <i class="far fa-times-circle"></i>
+                                                        No Image
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td>
                                                 {{ Str::limit($rembes_item->deskripsi, 50, '...') ?? 'No Description' }}
                                             </td>
                                     @endforeach
@@ -66,6 +91,7 @@
                                         <th>Name Rembes</th>
                                         <th>Nominal</th>
                                         <th>Date Rembes</th>
+                                        <th>Image</th>
                                         <th>Description</th>
                                     </tr>
                                 </tfoot>
@@ -75,6 +101,9 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
+                                    <div class="form-group">
+
+                                    </div>
                                     <div class="form-group">
                                         <label for="user_id">User:</label>
                                         <input style="display: none;" type="text" name="user_id" id="user_id"
@@ -102,10 +131,16 @@
                                         </select>
                                     </div>
 
-
                                     <div class="form-group">
                                         <label for="description">Description:</label>
-                                        <textarea name="description" id="description" class="form-control" placeholder="Enter description"></textarea>
+                                        <textarea name="description" id="description" class="form-control" placeholder="Enter description">{{ $rembes->description }}</textarea>
+                                    </div>
+
+                                    <div class="form-group my-3 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="far fa-save"></i>
+                                            Save
+                                        </button>
                                     </div>
                                 </form>
                             </div>
