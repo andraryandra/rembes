@@ -50,11 +50,13 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
 
     Route::controller(\App\Http\Controllers\Web\Rembes\RembesApprovalController::class)->group(function () {
         Route::get('submission-approved', 'index')->name('submission-approved.index');
-        // Route::get('submission/create', 'create')->name('submission.create');
+        Route::get('submission/create', 'create')->name('submission.create');
         // Route::post('submission/store', 'store')->name('submission.store');
-        Route::get('submission/{id}', 'show')->name('submission.show');
-        // Route::get('submission/{id}/edit', 'edit')->name('submission.edit');
-        Route::put('submission/{id}', 'update')->name('submission.update');
+        // Route::get('submission/{id}', 'show')->name('submission.show');
+        Route::get('submission/reimburseItem{id}', 'reimburseItem')->name('submission.reimburseItem');
+        Route::get('submission/{id}/edit', 'edit')->name('submission.edit');
+        Route::post('submission/update', 'update')->name('submission.update');
+        Route::post('submission/updateOneReimburse/{id}', 'updateOneReimburse')->name('submission.updateOneReimburse');
         // Route::delete('submission/delete/{id}', 'destroy')->name('submission.destroy');
         Route::get('submission/{id}/invoice', 'invoice')->name('submission.invoice');
     });

@@ -49,8 +49,6 @@
                                                         <div class="d-flex">
                                                             <img class="" src="{{ asset('logo/samara.png') }}"
                                                                 alt="company" class="rounded" width="200">
-                                                            <h3 class="in-heading align-self-center">PT. Satya Amarta Prima.
-                                                            </h3>
                                                         </div>
                                                         <p class="inv-street-addr mt-3">Jl. Villa Melati Mas Raya No.5,
                                                             Jelupang, Serpong Utara, South Tangerang City, Banten 15323</p>
@@ -60,11 +58,11 @@
 
                                                     <div class="col-sm-6 text-sm-end">
                                                         <p class="inv-list-number mt-sm-3 pb-sm-2 mt-4"><span
-                                                                class="inv-title">No Ticket : </span> <span
+                                                                class="inv-title">No Reimburse: </span> <span
                                                                 class="inv-number">{{ $rembes['id'] }}</span></p>
 
                                                         <p class="inv-created-date mt-sm-5 mt-3"><span
-                                                                class="inv-title">Ticket Date : </span>
+                                                                class="inv-title">Reimburse Date : </span>
                                                             @php
                                                                 $tanggal = \Carbon\Carbon::parse($rembes->tanggal)->locale('id_ID');
                                                             @endphp
@@ -83,16 +81,16 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4 align-self-center">
-                                                        <p class="inv-to">Ticket To</p>
+                                                        <p class="inv-to">Reimburse To</p>
                                                     </div>
 
                                                     <div
                                                         class="col-xl-4 col-lg-5 col-md-6 col-sm-8 align-self-center order-sm-0 order-1 text-sm-end mt-sm-0 mt-5">
-                                                        <h6 class=" inv-title">Ticket From</h6>
+                                                        <h6 class=" inv-title">Reimburse From</h6>
                                                     </div>
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
-                                                        <p class="inv-customer-name">Jesse Cory</p>
+                                                        <p class="inv-customer-name">Jeremy Lesmana</p>
                                                         <p class="inv-street-addr">405 Mulberry Rd., NC, 28649</p>
                                                         <p class="inv-email-address">jcory@company.com</p>
                                                         <p class="inv-email-address">(128) 666 070</p>
@@ -100,26 +98,26 @@
 
                                                     <div
                                                         class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
-                                                        <p class="inv-customer-name">{{ $rembes->nama }}</p>
-                                                        <p class="inv-street-addr">2161 Ferrell Street, MN, 56545 </p>
-                                                        <p class="inv-email-address">info@mail.com</p>
-                                                        <p class="inv-email-address">(218) 356 9954</p>
+                                                        <p class="inv-customer-name">{{ $rembes->user->name }}</p>
+                                                        <p class="inv-street-addr">{{ $rembes->user->address }}</p>
+                                                        <p class="inv-email-address">{{ $rembes->user->email }}</p>
+                                                        <p class="inv-email-address">{{ $rembes->user->phone }}</p>
                                                     </div>
 
                                                 </div>
 
                                             </div>
 
-                                            <div class="inv--product-table-section">
+                                            {{-- <div class="inv--product-table-section">
                                                 <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="">
+                                                    <table class="table" style="width:100%">
+                                                        <thead>
                                                             <tr>
                                                                 <th scope="col">No</th>
                                                                 <th scope="col">Nama Rembes</th>
-                                                                <th class="text-end" scope="col">Nominal</th>
-                                                                <th class="text-end" scope="col">Tanggal Rembes</th>
-                                                                <th class="text-end" scope="col">Deskripsi</th>
+                                                                <th scope="col">Nominal</th>
+                                                                <th scope="col">Tanggal Rembes</th>
+                                                                <th scope="col">Deskripsi</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -142,11 +140,51 @@
                                                                     </tr>
                                                                 @endif
                                                             @endforeach
-
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div> --}}
+                                            <div class="inv--product-table-section">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">No</th>
+                                                                <th scope="col">Nama Rembes</th>
+                                                                <th scope="col" class="text-end">Nominal</th>
+                                                                <th scope="col">Tanggal Rembes</th>
+                                                                <th scope="col" class="text-end">Deskripsi</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @forelse ($rembes_item as $item)
+                                                                @if ($item->rembes_id == $rembes->id)
+                                                                    <tr>
+                                                                        <td>{{ $loop->iteration }}</td>
+                                                                        <td>{{ $item->nama_rembes }}</td>
+                                                                        <td class="text-end">Rp.
+                                                                            {{ number_format($item->nominal, 0, ',', '.') }}
+                                                                        </td>
+                                                                        <td>
+                                                                            @php
+                                                                                $tanggal = \Carbon\Carbon::parse($item->tanggal_rembes)->locale('id_ID');
+                                                                            @endphp
+                                                                            {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                                                        </td>
+                                                                        <td class="text-end">{{ $item->deskripsi }}</td>
+                                                                    </tr>
+                                                                @endif
+                                                            @empty
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center">Tidak ada data
+                                                                    </td>
+                                                                </tr>
+                                                            @endforelse
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
+
 
                                             <div class="inv--total-amounts">
 

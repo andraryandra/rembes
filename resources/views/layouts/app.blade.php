@@ -150,6 +150,13 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 10
         });
+
+        $('#just-table').DataTable({
+            "paging": false, // Menonaktifkan pagination
+            "searching": false, // Menonaktifkan fitur pencarian
+            "info": false, // Menonaktifkan informasi jumlah data
+            "ordering": true, // Menonaktifkan pengurutan kolom
+        });
     </script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
