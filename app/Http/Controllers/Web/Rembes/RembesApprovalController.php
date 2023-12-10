@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Web\Rembes;
 use App\Models\Rembes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class RembesApprovalController extends Controller
 {
@@ -49,6 +51,70 @@ class RembesApprovalController extends Controller
 
     //     return view('pages.s_user.manager.m_submission_approved.show',  $data);
     // }
+
+    public function show($id): \Illuminate\Contracts\View\View
+    {
+        $data = [
+            'rembes' => \App\Models\Rembes::findOrFail($id),
+            'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
+            'rembes_nominal_item' => \App\Models\RembesItem::where('rembes_id', $id)->sum('nominal'),
+            'comment' => \App\Models\CommentRembes::where('rembes_id', $id)->orderByDesc('created_at')->paginate(10),
+
+            'active' => 'submission-approved',
+        ];
+
+        return view('pages.s_user.manager.m_submission_approved.comment-show',  $data);
+    }
+
+
+    public function commentStore(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required',
+        ], [
+            'comment.required' => 'Komentar harus diisi',
+        ]);
+
+        $rembes = Rembes::find($id);
+
+        if (!$rembes) {
+            return Redirect::route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+        }
+
+        $comment = new \App\Models\CommentRembes([
+            'rembes_id' => $rembes->id,
+            'user_id' => Auth::user()->id,
+            'comment' => $request->comment,
+        ]);
+
+        if ($comment->save()) {
+            return redirect()->back()->with(['success' => 'Komentar Berhasil Ditambahkan!']);
+        } else {
+            return redirect()->back()->with(['error' => 'Komentar Gagal Ditambahkan!']);
+        }
+    }
+
+    public function commentUpdate(Request $request, $id)
+    {
+        $this->validate(
+            $request,
+            [
+                'comment' => 'required',
+            ],
+            [
+                'comment.required' => 'Komentar harus diisi',
+            ]
+        );
+
+        $comment = \App\Models\CommentRembes::findOrFail($id);
+        $comment->comment = $request->comment;
+
+        if ($comment->save()) {
+            return back()->with(['success' => 'Komentar Berhasil Diperbarui!']);
+        } else {
+            return back()->with(['error' => 'Komentar Gagal Diperbarui!']);
+        }
+    }
 
     public function edit($id): \Illuminate\Contracts\View\View
     {

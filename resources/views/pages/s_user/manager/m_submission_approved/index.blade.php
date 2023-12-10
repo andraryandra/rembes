@@ -61,7 +61,12 @@
                                         <td>{{ $data_rembes->user->name }}</td>
                                         <td>{{ $data_rembes->name }}</td>
                                         <td>{{ $data_rembes->categoryTahun->slug }}</td>
-                                        <td>{{ $data_rembes->created_at->format('d/m/Y') }}</td>
+                                        <td>
+                                            @php
+                                                $tanggal = \Carbon\Carbon::parse($data_rembes->tanggal_ticket)->locale('id_ID');
+                                            @endphp
+                                            {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                        </td>
                                         <td>
                                             @if ($data_rembes->status == 'PENDING')
                                                 <span class="badge badge-warning">{{ $data_rembes->status }}</span>
@@ -79,9 +84,11 @@
                                                     href="{{ route('dashboard.submission.edit', $data_rembes->id) }}">
                                                     <i class="far fa-edit"></i>Edit</a>
                                             @endcan
-
+                                            <a class="badge badge-light-info text-start me-2"
+                                                href="{{ route('dashboard.submission.show', $data_rembes->id) }}">
+                                                <i class="fas fa-comment"></i>Comment</a>
                                             @can('submission-approved-list')
-                                                <a class="badge badge-light-primary text-start me-2"
+                                                <a class="badge badge-light-success text-start me-2"
                                                     href="{{ route('dashboard.submission.invoice', $data_rembes->id) }}">
                                                     <i class="fas fa-file-invoice"></i>Cetak Invoice</a>
                                             @endcan

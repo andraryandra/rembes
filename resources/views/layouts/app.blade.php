@@ -50,6 +50,13 @@
     <link href="{{ asset('assets/src/assets/css/dark/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
+    <link href="{{ asset('assets/src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/apps/blog-post.css') }}">
+    <link href="{{ asset('assets/src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/apps/blog-post.css') }}">
+
 </head>
 
 <body class="layout-boxed">

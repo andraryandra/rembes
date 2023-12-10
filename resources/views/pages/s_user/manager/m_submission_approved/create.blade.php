@@ -51,9 +51,8 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="rembes_{{ $item->id }}" name="id[]"
-                                                    value="{{ $item->id }}">
+                                                <input class="" type="checkbox" id="rembes_{{ $item->id }}"
+                                                    name="id[]" value="{{ $item->id }}">
                                             </div>
                                         </td>
                                         <td>{{ $item->user->name }}</td>
