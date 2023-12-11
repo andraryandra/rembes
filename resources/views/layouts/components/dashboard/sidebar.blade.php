@@ -125,16 +125,39 @@
         @endcan
 
         @can('submission-approved-list')
+            <style>
+                .dropdown-toggle {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .notification-badge {
+                    margin-left: 10px;
+                    /* Jarak antara notifikasi dan ikon lainnya */
+                    background-color: red;
+                    /* Warna latar belakang notifikasi */
+                    color: white;
+                    /* Warna teks notifikasi */
+                    padding: 5px 10px;
+                    border-radius: 50%;
+                    /* Untuk membuat notifikasi menjadi bulat */
+                    font-size: 12px;
+                }
+            </style>
+
             <li class="menu {{ $active == 'submission-approved' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.submission-approved.index') }}" aria-expanded="false"
                     class="dropdown-toggle">
                     <div class="">
                         <i data-feather="check-circle"></i>
-                        <span>Submission Approval</span>
+                        <span> Approval</span>
                     </div>
+                    <span class="notification-badge" id="pending-sidebar-count">0</span>
                 </a>
             </li>
         @endcan
+
 
 
 
@@ -251,3 +274,27 @@
     </ul>
 
 </nav>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function updatePendingSidebarCount() {
+        $.ajax({
+            url: '{{ route('dashboard.getPendingCount') }}',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var pendingCount = response.pendingCount;
+                $('#pending-sidebar-count').text(pendingCount);
+            },
+            error: function(error) {
+                console.error('Error fetching pending count:', error);
+            }
+        });
+    }
+
+    // Panggil fungsi updatePendingCount saat halaman dimuat
+    $(document).ready(function() {
+        updatePendingSidebarCount();
+    });
+</script>

@@ -32,7 +32,7 @@ class RembesItemController extends Controller
         $data = [
             'rembes_item' => \App\Models\RembesItem::where('rembes_id', $request->id)->get(),
             'rembes' => \App\Models\Rembes::findOrFail($request->id),
-            'active' => 'rembes-item',
+            'active' => 'rembes',
         ];
 
         return view('pages.s_user.karyawan.m_rembes_item.index', $data);
@@ -47,7 +47,7 @@ class RembesItemController extends Controller
     public function create($id): \Illuminate\Contracts\View\View
     {
         $data = [
-            'active' => 'rembes-item',
+            'active' => 'rembes',
             'rembes_item' => \App\Models\RembesItem::get(),
             'users' => \App\Models\User::get(),
             'categories' => \App\Models\CategoryTahun::get(),
@@ -143,7 +143,7 @@ class RembesItemController extends Controller
     public function show($id): \Illuminate\Contracts\View\View
     {
         $data = [
-            'active' => 'rembes-item',
+            'active' => 'rembes',
             'rembes' => \App\Models\Rembes::findOrFail($id),
             'rembes_item' => \App\Models\RembesItem::findOrFail($id),
         ];
@@ -167,7 +167,7 @@ class RembesItemController extends Controller
             $categories = \App\Models\CategoryTahun::get();
 
             $data = [
-                'active' => 'rembes-item',
+                'active' => 'rembes',
                 'rembes_item' => $rembesItem,
                 'rembes' => $rembesModel,
                 'rembes_image_item' => $rembesImageItem,

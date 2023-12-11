@@ -81,6 +81,7 @@
                                     </tr>
                                 @endif
                             @endforeach
+
                         </tbody>
                     </table>
 
@@ -94,8 +95,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea name="description" id="description" class="form-control" placeholder="Enter description"></textarea>
+                        <label for="comment">Comment:</label>
+                        <textarea name="comment[]" id="comment" class="form-control" placeholder="Enter comment"></textarea>
                     </div>
 
                     <!-- Your other input fields go here -->

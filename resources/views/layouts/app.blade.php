@@ -57,6 +57,12 @@
         type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/apps/blog-post.css') }}">
 
+    <link href="{{ asset('assets/src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/src/assets/css/light/users/user-profile.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('assets/src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/src/assets/css/dark/users/user-profile.css') }}" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body class="layout-boxed">

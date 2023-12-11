@@ -143,6 +143,7 @@
                                 <th>Name Rembes</th>
                                 <th>Nominal</th>
                                 <th>Date Rembes</th>
+                                <th>Image</th>
                                 <th>Description</th>
                                 <th width="280px"></th>
                             </tr>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Rembes;
 
 use App\Models\Rembes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -28,6 +29,13 @@ class RembesApprovalController extends Controller
 
         return view('pages.s_user.manager.m_submission_approved.index', $data);
     }
+
+    public function getPendingCount(Request $request)
+    {
+        $pendingCount = \App\Models\Rembes::where('status', 'PENDING')->count();
+        return response()->json(['pendingCount' => $pendingCount]);
+    }
+
 
     public function create()
     {
@@ -138,41 +146,78 @@ class RembesApprovalController extends Controller
 
     public function update(Request $request)
     {
-        // Validate the request
-        $this->validate(
-            $request,
-            [
-                'id' => 'required|array',
-                'id.*' => 'exists:rembes,id', // Validate that each ID exists in the 'rembes' table
-                'status' => 'required',
-                'description' => 'nullable',
-            ],
-            [
-                'id.required' => 'Pilih setidaknya satu Data Rembes untuk diperbarui',
-                // 'user_id.required' => 'User harus diisi',
-                'status.required' => 'Status harus diisi',
-            ]
-        );
+        try {
+            // Validate the request
+            $this->validate(
+                $request,
+                [
+                    'id' => 'required|array',
+                    'id.*' => 'exists:rembes,id', // Validate that each ID exists in the 'rembes' table
+                    'status' => 'required',
+                    'comment' => 'nullable|array', // Change 'description' to 'comment'
+                    'comment.*' => 'string', // Each comment in the array must be a string
+                ],
+                [
+                    'id.required' => 'Pilih setidaknya satu Data Rembes untuk diperbarui',
+                    'status.required' => 'Status harus diisi',
+                ]
+            );
 
-        // Get an array of selected IDs
-        $selectedIds = $request->input('id');
+            // Get an array of selected IDs and comments
+            $selectedIds = $request->input('id');
+            $comments = $request->input('comment', []);
 
-        // Perform updates for each selected ID
-        foreach ($selectedIds as $id) {
-            $rembes = \App\Models\Rembes::find($id);
+            // Begin the database transaction
+            DB::beginTransaction();
 
-            if (!$rembes) {
-                return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+            // Perform updates for each selected ID
+            foreach ($selectedIds as $id) {
+                $rembes = \App\Models\Rembes::find($id);
+
+                if (!$rembes) {
+                    // Rollback the database transaction and return an error message
+                    DB::rollback();
+                    return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+                }
+
+                $rembes->status = $request->status;
+
+                // Clean up existing CommentRembes entries for the current Rembes
+                \App\Models\CommentRembes::where('rembes_id', $id)->where('user_id', Auth::user()->id)->delete();
+
+                // Iterate through each comment and create new CommentRembes entries
+                foreach ($comments as $comment) {
+                    // Create a new instance of CommentRembes
+                    $commentInstance = new \App\Models\CommentRembes();
+
+                    // Set values for 'rembes_id' and 'user_id' in the CommentRembes model
+                    $commentInstance->rembes_id = $rembes->id;
+                    $commentInstance->user_id = Auth::user()->id;
+                    $commentInstance->comment = $comment;
+
+                    // Save the CommentRembes instance to the database
+                    $commentInstance->save();
+                }
+
+                $rembes->save();
             }
 
-            $rembes->status = $request->status;
-            $rembes->description = $request->description;
+            // Commit the database transaction
+            DB::commit();
 
-            $rembes->save();
+            return redirect()->route('dashboard.submission-approved.index')->with(['success' => 'Data Berhasil Diperbarui!']);
+        } catch (\Exception $e) {
+            // Rollback the database transaction in case of an exception
+            DB::rollback();
+
+            return redirect()->route('dashboard.submission-approved.index')->with(['error' => $e->getMessage()]);
         }
-
-        return redirect()->route('dashboard.submission-approved.index')->with(['success' => 'Data Berhasil Diperbarui!']);
     }
+
+
+
+
+
 
     public function updateOneReimburse($id, Request $request)
     {

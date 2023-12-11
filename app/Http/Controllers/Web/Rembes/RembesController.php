@@ -26,12 +26,13 @@ class RembesController extends Controller
     public function index(): \Illuminate\Contracts\View\View
     {
         $data = [
-            'rembes' => \App\Models\Rembes::get(),
+            'rembes' => \App\Models\Rembes::where('user_id', auth()->id())->get(),
             'active' => 'rembes',
         ];
 
         return view('pages.s_user.karyawan.m_rembes.index', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.

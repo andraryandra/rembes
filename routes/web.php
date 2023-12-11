@@ -21,9 +21,22 @@ Route::get('/redirect', [App\Http\Controllers\Auth\RedirectAuthController::class
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
 
     Route::get('/home/admin', [App\Http\Controllers\HomeController::class, 'admin'])->name('admin');
+    Route::get('/home/karyawan', [App\Http\Controllers\HomeController::class, 'karyawan'])->name('karyawan');
 
     Route::resource('roles', \App\Http\Controllers\Auth\RoleController::class);
     Route::resource('users', \App\Http\Controllers\Auth\UserController::class);
+
+    Route::controller(\App\Http\Controllers\Auth\ProfileUserController::class)->group(function () {
+        Route::get('user/profile', 'index')->name('user-profile.index');
+        // Route::get('user/profile/create', 'create')->name('user-profile.create');
+        // Route::post('user/profile/store', 'store')->name('user-profile.store');
+        // Route::get('user/profile/{id}', 'show')->name('user-profile.show');
+        Route::get('user/profile/{id}/edit', 'edit')->name('user-profile.edit');
+        // Route::put('user/profile/{id}', 'update')->name('user-profile.update');
+        // Route::delete('user/profile/delete/{id}', 'destroy')->name('user-profile.destroy');
+    });
+
+
     Route::controller(App\Http\Controllers\Web\Rembes\RembesController::class)->group(function () {
         Route::get('rembes', 'index')->name('rembes.index');
         Route::get('rembes/create', 'create')->name('rembes.create');
@@ -62,4 +75,6 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
         Route::post('/submission/{id}/comment', 'commentStore')->name('submission.commentStore');
         Route::put('/submission/{id}/comment', 'commentUpdate')->name('submission.commentUpdate');
     });
+
+    Route::get('/get-pending-count', [App\Http\Controllers\Web\Rembes\RembesApprovalController::class, 'getPendingCount'])->name('getPendingCount');
 });

@@ -17,7 +17,7 @@ class RedirectAuthController extends Controller
         if (auth()->check() && auth()->user()->roles[0]->name == 'Admin') {
             return redirect()->route('dashboard.admin');
         } elseif (auth()->check() && auth()->user()->roles[0]->name == 'User') {
-            return redirect()->route('dashboard.user');
+            return redirect()->route('dashboard.karyawan');
         } else {
             return redirect('/');
         }

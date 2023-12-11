@@ -29,4 +29,11 @@ class HomeController extends Controller
             'active' => 'dashboard'
         ]);
     }
+
+    public function karyawan()
+    {
+        return view('pages.s_user.karyawan.home_karyawan', [
+            'active' => 'dashboard'
+        ]);
+    }
 }
