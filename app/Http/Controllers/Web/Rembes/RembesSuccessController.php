@@ -8,13 +8,15 @@ use App\Models\CommentRembes;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class RembesSuccessController extends Controller
 {
     public function index(): \Illuminate\Contracts\View\View
     {
         $data = [
-            'rembes' => \App\Models\Rembes::where('status', 'SUCCESS')->get(),
+            // 'rembes' => \App\Models\Rembes::where('status', 'SUCCESS')->get(),
+            'rembes' => \App\Models\Rembes::whereIn('status', ['SUCCESS', 'REJECTED'])->get(),
             'active' => 'submission-success',
         ];
 

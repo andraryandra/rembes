@@ -97,7 +97,7 @@
                             @php
                                 $no = 1;
                             @endphp
-                            @foreach ($rembes_item as $data_rembes_item)
+                            {{-- @foreach ($rembes_item as $data_rembes_item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $data_rembes_item->nama_rembes }}</td>
@@ -141,6 +141,48 @@
                                         {{ Str::limit($item->deskripsi, 50, '...') ?? 'No Description' }}
                                     </td>
 
+                                </tr>
+                            @endforeach --}}
+                            @foreach ($rembes_item as $data_rembes_item)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $data_rembes_item->nama_rembes }}</td>
+                                    <td>Rp. {{ number_format($data_rembes_item->nominal, 0, ',', '.') }}</td>
+                                    <td>
+                                        @php
+                                            $tanggal = \Carbon\Carbon::parse($data_rembes_item->tanggal_rembes)->locale('id_ID');
+                                        @endphp
+                                        {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                    </td>
+                                    <td>
+                                        @if ($data_rembes_item->foto_bukti)
+                                            @foreach (explode(',', $data_rembes_item->foto_bukti) as $file)
+                                                @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                    <a href="{{ asset('storage/foto_bukti/' . $file) }}" target="_blank">
+                                                        <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                            alt="{{ $data_rembes_item->id }}" class="mx-2 rounded border"
+                                                            width="110">
+                                                    </a>
+                                                @else
+                                                    <span class="badge btn-info text-center">
+                                                        <a href="#" download="{{ $file }}"
+                                                            class="text-white">
+                                                            <i class="far fa-file-archive d-block"></i>
+                                                            {{ $file }}
+                                                        </a>
+                                                    </span>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <span class="badge btn-danger">
+                                                <i class="far fa-times-circle"></i>
+                                                No Image
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ Str::limit($data_rembes_item->deskripsi, 50, '...') ?? 'No Description' }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

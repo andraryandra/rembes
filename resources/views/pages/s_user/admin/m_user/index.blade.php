@@ -63,6 +63,8 @@
                                             @endforeach
                                         @endif
                                     </td>
+
+
                                     <td>
                                         @can('user-list')
                                             <a class="badge

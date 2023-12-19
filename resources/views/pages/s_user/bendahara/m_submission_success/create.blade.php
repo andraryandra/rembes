@@ -6,8 +6,9 @@
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Submission Success</li>
-                <li class="breadcrumb-item active" aria-current="page">Create New Submission Success</li>
+                <li class="breadcrumb-item" aria-current="page"><a
+                        href="{{ route('dashboard.submission-success.index') }}">Submission Resolved</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Create New Submission Resolved</li>
             </ol>
         </nav>
     </div>

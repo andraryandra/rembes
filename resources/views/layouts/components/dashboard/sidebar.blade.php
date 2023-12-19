@@ -141,8 +141,8 @@
                 <a href="{{ route('dashboard.submission-success.index') }}" aria-expanded="false"
                     class="dropdown-toggle">
                     <div class="">
-                        <i data-feather="check-circle"></i>
-                        <span style="font-size: 12px;"> Approval Success</span>
+                        <i data-feather="check-square"></i>
+                        <span>Resolved</span>
                     </div>
                     <span class="notification-badge" id="approved-sidebar-count">0</span>
                 </a>

@@ -37,11 +37,11 @@
 
                                                     <div class="col-sm-6 text-sm-end">
                                                         <p class="inv-list-number mt-sm-3 pb-sm-2 mt-4"><span
-                                                                class="inv-title">No Ticket : </span> <span
+                                                                class="inv-title">No Reimburse : </span> <span
                                                                 class="inv-number">{{ $rembes['id'] }}</span></p>
 
                                                         <p class="inv-created-date mt-sm-5 mt-3"><span
-                                                                class="inv-title">Ticket Date : </span>
+                                                                class="inv-title">Reimburse Date : </span>
                                                             @php
                                                                 $tanggal = \Carbon\Carbon::parse($rembes->tanggal)->locale('id_ID');
                                                             @endphp
@@ -62,7 +62,7 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4 align-self-center">
-                                                        <p class="inv-to">Ticket From</p>
+                                                        <p class="inv-to">Reimburse From</p>
                                                     </div>
 
                                                     <div
@@ -74,7 +74,8 @@
                                                         <p class="inv-street-addr">Name User:
                                                             <b>{{ $rembes->user->name }}</b>
                                                         </p>
-                                                        <p class="inv-street-addr">Name Ticket: <b>{{ $rembes->name }}</b>
+                                                        <p class="inv-street-addr">Reimburse Name:
+                                                            <b>{{ $rembes->name }}</b>
                                                         </p>
                                                         <p class="inv-street-addr">Status: <b>{{ $rembes->status }}</b>
                                                         </p>
@@ -199,17 +200,40 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
+                                            <div class="inv--total-amounts">
+                                                <div class="form-group my-2">
+                                                    <div class="row">
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
+                                                        @foreach ($rembes_item as $item)
+                                                            @if ($item->rembes_id == $rembes->id)
+                                                                @if ($item->foto_bukti)
+                                                                    @foreach (explode(',', $item->foto_bukti) as $file)
+                                                                        <div class="col-4">
+                                                                            <h6>{{ $no++ }}.{{ $item->nama_rembes }}
+                                                                            </h6>
+                                                                            @if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+                                                                                <img src="{{ asset('storage/foto_bukti/' . $file) }}"
+                                                                                    alt="{{ $item->nama_rembes }}"
+                                                                                    class="mx-2 rounded border"
+                                                                                    width="250">
+                                                                            @endif
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="inv--note">
-
                                                 {{-- <div class="row mt-4">
                                                     <div class="col-sm-12 col-12 order-sm-0 order-1">
                                                         <p>Note: Thank you for doing Business with us.</p>
                                                     </div>
                                                 </div> --}}
-
                                             </div>
 
                                         </div>

@@ -4,8 +4,9 @@
     <div class="page-meta">
         <nav class="breadcrumb-style-one" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Submission Success</li>
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Submission Resolved</li>
+                {{-- <li class="breadcrumb-item"><a href="{{ route('dashboard.submission-success.index') }}">Resolved</a></li> --}}
             </ol>
         </nav>
     </div>
@@ -18,13 +19,11 @@
 
 
             @can('submission-success-create')
-                {{-- @if ($rembes->status !== 'APPROVED') --}}
                 <a class="btn btn-primary mb-2 me-4" href="{{ route('dashboard.submission-success.create') }}">
                     <i class="far fa-plus-square"></i>
 
-                    Add Success Rembes <span id="pending-count" class="badge bg-light text-dark ms-2"></span>
+                    Add resolved Rembes <span id="pending-count" class="badge bg-light text-dark ms-2"></span>
                 </a>
-                {{-- @endif --}}
             @endcan
         </div>
 

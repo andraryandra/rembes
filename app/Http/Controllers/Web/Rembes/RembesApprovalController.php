@@ -25,7 +25,8 @@ class RembesApprovalController extends Controller
     {
         // dd('test');
         $data = [
-            'rembes' => \App\Models\Rembes::where('status', 'APPROVED')->get(),
+            // 'rembes' => \App\Models\Rembes::where('status', 'APPROVED')->get(),
+            'rembes' => \App\Models\Rembes::where('status', '!=', 'PENDING')->get(),
             'active' => 'submission-approved',
         ];
 
@@ -49,21 +50,9 @@ class RembesApprovalController extends Controller
         return view('pages.s_user.manager.m_submission_approved.create', $data);
     }
 
-    // public function show($id): \Illuminate\Contracts\View\View
-    // {
-    //     // dd("oke");
-    //     $data = [
-    //         'rembes' => \App\Models\Rembes::findOrFail($id),
-    //         'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
-    //         'rembes_nominal_item' => \App\Models\RembesItem::where('rembes_id', $id)->sum('nominal'),
-    //         'active' => 'submission-approved',
-    //     ];
-
-    //     return view('pages.s_user.manager.m_submission_approved.show',  $data);
-    // }
-
     public function show($id): \Illuminate\Contracts\View\View
     {
+        // dd("oke");
         if (Gate::denies('submission-artikel-list')) {
             abort(403, 'Anda tidak memiliki hak untuk melihat data ini');
         }

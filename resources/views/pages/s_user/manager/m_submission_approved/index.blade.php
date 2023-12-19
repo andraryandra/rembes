@@ -50,46 +50,46 @@
                                 $no = 1;
                             @endphp
                             @foreach ($rembes as $data_rembes)
-                                @if ($data_rembes->status !== 'PENDING')
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $data_rembes->user->name }}</td>
-                                        <td>
-                                            @can('submission-artikel-list')
-                                                <a class="text-primary" style="text-decoration: underline;"
-                                                    href="{{ route('dashboard.submission.show', $data_rembes->id) }}">
-                                                    {{ $data_rembes->name }}
-                                                </a>
-                                            @endcan
-                                        </td>
-                                        <td>{{ $data_rembes->categoryTahun->slug }}</td>
-                                        <td>
-                                            @php
-                                                $tanggal = \Carbon\Carbon::parse($data_rembes->tanggal_ticket)->locale('id_ID');
-                                            @endphp
-                                            {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
-                                        </td>
-                                        <td>
-                                            @if ($data_rembes->status == 'PENDING')
-                                                <span class="badge badge-warning">{{ $data_rembes->status }}</span>
-                                            @elseif($data_rembes->status == 'APPROVED')
-                                                <span class="badge badge-info">{{ $data_rembes->status }}</span>
-                                            @elseif($data_rembes->status == 'REJECTED')
-                                                <span class="badge badge-danger">{{ $data_rembes->status }}</span>
-                                            @elseif($data_rembes->status == 'SUCCESS')
-                                                <span class="badge badge-success">{{ $data_rembes->status }}</span>
-                                            @else
-                                                <span class="badge badge-secondary">{{ $data_rembes->status }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-
-                                            <a class="badge
-                                                    badge-light-info text-start"
-                                                href="{{ route('dashboard.rembes.show', $data_rembes->id) }}">
-                                                <i data-feather="printer"></i>
-                                                Print
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $data_rembes->user->name }}</td>
+                                    <td>
+                                        @can('submission-artikel-list')
+                                            <a class="text-primary" style="text-decoration: underline;"
+                                                href="{{ route('dashboard.submission.show', $data_rembes->id) }}">
+                                                {{ $data_rembes->name }}
                                             </a>
+                                        @endcan
+                                    </td>
+                                    <td>{{ $data_rembes->categoryTahun->slug }}</td>
+                                    <td>
+                                        @php
+                                            $tanggal = \Carbon\Carbon::parse($data_rembes->tanggal_ticket)->locale('id_ID');
+                                        @endphp
+                                        {{ $tanggal->isoFormat('dddd, D MMMM YYYY') ?? 'No Date' }}
+                                    </td>
+                                    <td>
+                                        @if ($data_rembes->status == 'PENDING')
+                                            <span class="badge badge-warning">{{ $data_rembes->status }}</span>
+                                        @elseif($data_rembes->status == 'APPROVED')
+                                            <span class="badge badge-info">{{ $data_rembes->status }}</span>
+                                        @elseif($data_rembes->status == 'REJECTED')
+                                            <span class="badge badge-danger">{{ $data_rembes->status }}</span>
+                                        @elseif($data_rembes->status == 'SUCCESS')
+                                            <span class="badge badge-success">{{ $data_rembes->status }}</span>
+                                        @else
+                                            <span class="badge badge-secondary">{{ $data_rembes->status }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+
+                                        <a class="badge
+                                            badge-light-info text-start"
+                                            href="{{ route('dashboard.rembes.show', $data_rembes->id) }}">
+                                            <i data-feather="printer"></i>
+                                            Print
+                                        </a>
+                                        @if ($data_rembes->status == 'APPROVED' || $data_rembes->status == 'REJECTED')
                                             @if (Auth::user()->roles[0]->name == 'Admin' ||
                                                     Auth::user()->roles[0]->name == 'Bendahara' ||
                                                     Auth::user()->roles[0]->name == 'Manager')
@@ -120,9 +120,9 @@
                                                     {!! Form::close() !!}
                                                 @endcan
                                             @endif
-                                        </td>
-                                    </tr>
-                                @endif
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
