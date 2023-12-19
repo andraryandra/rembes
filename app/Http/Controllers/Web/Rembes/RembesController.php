@@ -23,15 +23,25 @@ class RembesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): \Illuminate\Contracts\View\View
+    public function index(Request $request): \Illuminate\Contracts\View\View
     {
+        $status = $request->input('status');
+
+        $rembes = \App\Models\Rembes::where('user_id', auth()->id());
+
+        if ($status && $status != 'semua') {
+            $rembes->where('status', $status);
+        }
+
         $data = [
-            'rembes' => \App\Models\Rembes::where('user_id', auth()->id())->get(),
+            'rembes' => $rembes->get(),
             'active' => 'rembes',
         ];
 
         return view('pages.s_user.karyawan.m_rembes.index', $data);
     }
+
+
 
 
     /**

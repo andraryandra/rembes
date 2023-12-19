@@ -7,23 +7,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
 class RembesApprovalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:submission-approved-list|submission-approved-create|submission-approved-edit|submission-approved-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:submission-approved-list|submission-approved-create|submission-approved-edit|submission-approved-delete', ['only' => ['index']]);
         $this->middleware('permission:submission-approved-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:submission-approved-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:submission-approved-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:submission-artikel-list', ['only' => ['show', 'commentStore', 'commentUpdate']]);
     }
 
     public function index(): \Illuminate\Contracts\View\View
     {
         // dd('test');
         $data = [
-            'rembes' => \App\Models\Rembes::get(),
+            'rembes' => \App\Models\Rembes::where('status', 'APPROVED')->get(),
             'active' => 'submission-approved',
         ];
 
@@ -40,7 +42,7 @@ class RembesApprovalController extends Controller
     public function create()
     {
         $data = [
-            'rembes' => \App\Models\Rembes::get(),
+            'rembes' => \App\Models\Rembes::where('status', 'PENDING')->get(),
             'active' => 'submission-approved',
         ];
 
@@ -62,13 +64,16 @@ class RembesApprovalController extends Controller
 
     public function show($id): \Illuminate\Contracts\View\View
     {
+        if (Gate::denies('submission-artikel-list')) {
+            abort(403, 'Anda tidak memiliki hak untuk melihat data ini');
+        }
         $data = [
             'rembes' => \App\Models\Rembes::findOrFail($id),
             'rembes_item' => \App\Models\RembesItem::where('rembes_id', $id)->get(),
             'rembes_nominal_item' => \App\Models\RembesItem::where('rembes_id', $id)->sum('nominal'),
             'comment' => \App\Models\CommentRembes::where('rembes_id', $id)->orderByDesc('created_at')->paginate(10),
 
-            'active' => 'submission-approved',
+            'active' => '',
         ];
 
         return view('pages.s_user.manager.m_submission_approved.comment-show',  $data);
@@ -104,25 +109,26 @@ class RembesApprovalController extends Controller
 
     public function commentUpdate(Request $request, $id)
     {
-        $this->validate(
-            $request,
-            [
-                'comment' => 'required',
-            ],
-            [
-                'comment.required' => 'Komentar harus diisi',
-            ]
-        );
+        $request->validate([
+            'comment' => 'required',
+        ], [
+            'comment.required' => 'Komentar harus diisi',
+        ]);
 
-        $comment = \App\Models\CommentRembes::findOrFail($id);
-        $comment->comment = $request->comment;
+        try {
+            $comment = \App\Models\CommentRembes::findOrFail($id);
+            $comment->comment = $request->comment;
 
-        if ($comment->save()) {
-            return back()->with(['success' => 'Komentar Berhasil Diperbarui!']);
-        } else {
-            return back()->with(['error' => 'Komentar Gagal Diperbarui!']);
+            if ($comment->save()) {
+                return back()->with(['success' => 'Komentar Berhasil Diperbarui!']);
+            } else {
+                return back()->with(['error' => 'Komentar Gagal Diperbarui!']);
+            }
+        } catch (\Exception $e) {
+            return back()->with(['error' => $e->getMessage()]);
         }
     }
+
 
     public function edit($id): \Illuminate\Contracts\View\View
     {
@@ -144,6 +150,77 @@ class RembesApprovalController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    // public function update(Request $request)
+    // {
+    //     try {
+    //         // Validate the request
+    //         $this->validate(
+    //             $request,
+    //             [
+    //                 'id' => 'required|array',
+    //                 'id.*' => 'exists:rembes,id', // Validate that each ID exists in the 'rembes' table
+    //                 'status' => 'required',
+    //                 'comment' => 'nullable|array', // Change 'description' to 'comment'
+    //                 'comment.*' => 'string', // Each comment in the array must be a string
+    //             ],
+    //             [
+    //                 'id.required' => 'Pilih setidaknya satu Data Rembes untuk diperbarui',
+    //                 'status.required' => 'Status harus diisi',
+    //             ]
+    //         );
+
+    //         // Get an array of selected IDs and comments
+    //         $selectedIds = $request->input('id');
+    //         $comments = $request->input('comment', []);
+
+    //         // Begin the database transaction
+    //         DB::beginTransaction();
+
+    //         // Perform updates for each selected ID
+    //         foreach ($selectedIds as $id) {
+    //             $rembes = \App\Models\Rembes::find($id);
+
+    //             if (!$rembes) {
+    //                 // Rollback the database transaction and return an error message
+    //                 DB::rollback();
+    //                 return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+    //             }
+
+    //             $rembes->status = $request->status;
+
+    //             // Clean up existing CommentRembes entries for the current Rembes
+    //             \App\Models\CommentRembes::where('rembes_id', $id)->where('user_id', Auth::user()->id)->delete();
+
+    //             // Iterate through each comment and create new CommentRembes entries
+    //             foreach ($comments as $comment) {
+    //                 // Create a new instance of CommentRembes
+    //                 $commentInstance = new \App\Models\CommentRembes();
+
+    //                 // Set values for 'rembes_id' and 'user_id' in the CommentRembes model
+    //                 $commentInstance->rembes_id = $rembes->id;
+    //                 $commentInstance->user_id = Auth::user()->id;
+    //                 $commentInstance->comment = $comment;
+
+    //                 // Save the CommentRembes instance to the database
+    //                 $commentInstance->save();
+    //             }
+
+    //             $rembes->save();
+    //         }
+
+    //         // Commit the database transaction
+    //         DB::commit();
+
+    //         return redirect()->route('dashboard.submission-approved.index')->with(['success' => 'Data Berhasil Diperbarui!']);
+    //     } catch (\Exception $e) {
+    //         // Rollback the database transaction in case of an exception
+    //         DB::rollback();
+
+    //         return redirect()->route('dashboard.submission-approved.index')->with(['error' => $e->getMessage()]);
+    //     }
+    // }
+
+
     public function update(Request $request)
     {
         try {
@@ -152,14 +229,15 @@ class RembesApprovalController extends Controller
                 $request,
                 [
                     'id' => 'required|array',
-                    'id.*' => 'exists:rembes,id', // Validate that each ID exists in the 'rembes' table
+                    'id.*' => 'exists:rembes,id',
                     'status' => 'required',
-                    'comment' => 'nullable|array', // Change 'description' to 'comment'
-                    'comment.*' => 'string', // Each comment in the array must be a string
+                    'comment' => 'nullable|array',
                 ],
                 [
                     'id.required' => 'Pilih setidaknya satu Data Rembes untuk diperbarui',
                     'status.required' => 'Status harus diisi',
+
+
                 ]
             );
 
@@ -177,13 +255,11 @@ class RembesApprovalController extends Controller
                 if (!$rembes) {
                     // Rollback the database transaction and return an error message
                     DB::rollback();
-                    return redirect()->route('dashboard.submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
+                    return redirect()->route('submission-approved.index')->with(['error' => 'Data tidak ditemukan']);
                 }
 
                 $rembes->status = $request->status;
-
-                // Clean up existing CommentRembes entries for the current Rembes
-                \App\Models\CommentRembes::where('rembes_id', $id)->where('user_id', Auth::user()->id)->delete();
+                $rembes->save(); // Save status update first
 
                 // Iterate through each comment and create new CommentRembes entries
                 foreach ($comments as $comment) {
@@ -198,8 +274,6 @@ class RembesApprovalController extends Controller
                     // Save the CommentRembes instance to the database
                     $commentInstance->save();
                 }
-
-                $rembes->save();
             }
 
             // Commit the database transaction
@@ -210,7 +284,7 @@ class RembesApprovalController extends Controller
             // Rollback the database transaction in case of an exception
             DB::rollback();
 
-            return redirect()->route('dashboard.submission-approved.index')->with(['error' => $e->getMessage()]);
+            return back()->with(['error' => $e->getMessage()]);
         }
     }
 

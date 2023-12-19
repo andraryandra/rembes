@@ -43,6 +43,13 @@ class PermissionTableSeeder extends Seeder
             'submission-approved-create',
             'submission-approved-edit',
             'submission-approved-delete',
+
+            'submission-artikel-list',
+
+            'submission-success-list',
+            'submission-success-create',
+            'submission-success-edit',
+            'submission-success-delete',
         ];
 
         foreach ($permissions as $permission) {

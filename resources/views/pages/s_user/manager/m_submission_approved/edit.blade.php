@@ -32,6 +32,7 @@
                 <form action="{{ route('dashboard.submission.updateOneReimburse', $rembes->id) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="form-group my-2">
                         <label for="user_id">User:</label>
                         <input style="display: none;" type="text" name="user_id" id="user_id" class="form-control"
@@ -46,7 +47,7 @@
                             placeholder="Enter the reimbursement name">
                     </div>
 
-                    <div class="form-group my-2">
+                    {{-- <div class="form-group my-2">
                         <label for="category_tahun_id">Nominal:</label>
                         <div class="input-group">
                             @php
@@ -57,7 +58,7 @@
                                 placeholder="Entry your amount of money"
                                 value="{{ number_format($totalNominal, 0, ',', '.') }}" required>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group my-2">
                         <label for="tanggal_ticket">Date Reimburse:</label>
@@ -75,15 +76,15 @@
                         </select>
                     </div>
 
-                    <div class="form-group my-2">
+                    {{-- <div class="form-group my-2">
                         <label for="description">Description:</label>
                         <textarea name="description" id="description" class="form-control" placeholder="Enter description">{{ $rembes->description }}</textarea>
-                    </div>
+                    </div> --}}
 
-                    <div class="form-group my-2">
+                    {{-- <div class="form-group my-2">
                         <label>Detail Item Reimburse:</label><br>
                         <a class="btn btn-light-primary" href="#">Detail</a>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group my-3 text-center">
                         <button type="submit" class="btn btn-primary">

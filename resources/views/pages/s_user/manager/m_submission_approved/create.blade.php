@@ -75,8 +75,8 @@
                                         </td>
                                         <td>
                                             <a class="badge badge-light-primary text-start me-2"
-                                                href="{{ route('dashboard.submission.reimburseItem', $item->id) }}">
-                                                <i class="far fa-eye"></i>show</a>
+                                                href="{{ route('dashboard.submission.show', $item->id) }}">
+                                                <i class="far fa-eye"></i>Show</a>
                                         </td>
                                     </tr>
                                 @endif
@@ -87,7 +87,7 @@
 
                     <div class="form-group mt-5 mb-3">
                         <label for="status">Status Pengajuan:</label>
-                        <select class="form-control" name="status" id="status">
+                        <select class="form-select" name="status" id="status">
                             <option disabled selected>Select Submission Status</option>
                             <option value="APPROVED">APPROVED</option>
                             <option value="REJECTED">REJECTED</option>
@@ -96,7 +96,8 @@
 
                     <div class="form-group">
                         <label for="comment">Comment:</label>
-                        <textarea name="comment[]" id="comment" class="form-control" placeholder="Enter comment"></textarea>
+                        <textarea name="comment[]" id="comment" class="form-control" placeholder="Enter comment" cols="30"
+                            rows="10"></textarea>
                     </div>
 
                     <!-- Your other input fields go here -->

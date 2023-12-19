@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             CreateAdminUserSeeder::class,
             CreateKaryawanSeeder::class,
             CategoryTahun::class,
+            CreateManagerSeeder::class,
+            CreateBendaharaSeeder::class,
         ]);
     }
 }

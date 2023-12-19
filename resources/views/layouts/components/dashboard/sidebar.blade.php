@@ -125,43 +125,32 @@
         @endcan
 
         @can('submission-approved-list')
-            <style>
-                .dropdown-toggle {
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                }
-
-                .notification-badge {
-                    margin-left: 10px;
-                    /* Jarak antara notifikasi dan ikon lainnya */
-                    background-color: red;
-                    /* Warna latar belakang notifikasi */
-                    color: white;
-                    /* Warna teks notifikasi */
-                    padding: 5px 10px;
-                    border-radius: 50%;
-                    /* Untuk membuat notifikasi menjadi bulat */
-                    font-size: 12px;
-                }
-            </style>
-
             <li class="menu {{ $active == 'submission-approved' ? 'active' : '' }}">
                 <a href="{{ route('dashboard.submission-approved.index') }}" aria-expanded="false"
                     class="dropdown-toggle">
                     <div class="">
                         <i data-feather="check-circle"></i>
-                        <span> Approval</span>
+                        <span> Approved</span>
                     </div>
                     <span class="notification-badge" id="pending-sidebar-count">0</span>
                 </a>
             </li>
         @endcan
+        @can('submission-success-list')
+            <li class="menu {{ $active == 'submission-success' ? 'active' : '' }}">
+                <a href="{{ route('dashboard.submission-success.index') }}" aria-expanded="false"
+                    class="dropdown-toggle">
+                    <div class="">
+                        <i data-feather="check-circle"></i>
+                        <span style="font-size: 12px;"> Approval Success</span>
+                    </div>
+                    <span class="notification-badge" id="approved-sidebar-count">0</span>
+                </a>
+            </li>
+        @endcan
 
 
-
-
-        <li class="menu {{ $active == 'report-rembes' ? 'active' : '' }}">
+        {{-- <li class="menu {{ $active == 'report-rembes' ? 'active' : '' }}">
             <a href="{{ url('#') }}" aria-expanded="false" class="dropdown-toggle">
                 <div class="">
                     <i data-feather="file-text"></i>
@@ -268,12 +257,34 @@
                         </svg> New</span>
                 </div>
             </a>
-        </li>
+        </li> --}}
 
 
     </ul>
 
 </nav>
+
+<style>
+    .dropdown-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .notification-badge {
+        margin-left: 10px;
+        /* Jarak antara notifikasi dan ikon lainnya */
+        background-color: red;
+        /* Warna latar belakang notifikasi */
+        color: white;
+        /* Warna teks notifikasi */
+        padding: 5px 10px;
+        border-radius: 50%;
+        /* Untuk membuat notifikasi menjadi bulat */
+        font-size: 12px;
+    }
+</style>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -296,5 +307,28 @@
     // Panggil fungsi updatePendingCount saat halaman dimuat
     $(document).ready(function() {
         updatePendingSidebarCount();
+    });
+</script>
+
+
+<script>
+    function updateApprovedSubmissionCount() {
+        $.ajax({
+            url: '{{ route('dashboard.getApprovedCount') }}',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var approvedCount = response.approvedCount;
+                $('#approved-sidebar-count').text(approvedCount);
+            },
+            error: function(error) {
+                console.error('Error fetching pending count:', error);
+            }
+        });
+    }
+
+    // Panggil fungsi updatePendingCount saat halaman dimuat
+    $(document).ready(function() {
+        updateApprovedSubmissionCount();
     });
 </script>

@@ -26,7 +26,7 @@
                                                             <img class="" src="{{ asset('logo/samara.png') }}"
                                                                 alt="company" class="rounded" width="150">
                                                             <h3 class="in-heading align-self-center"
-                                                                style="font-size: 14px;">PT. Satya Amarta Prima.
+                                                                style="font-size: 18px;">PT Satya Amarta Prima
                                                             </h3>
                                                         </div>
                                                         <p class="inv-street-addr mt-3">Jl. Villa Melati Mas Raya No.5,
@@ -62,27 +62,45 @@
                                                 <div class="row">
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4 align-self-center">
-                                                        <p class="inv-to">Ticket To</p>
+                                                        <p class="inv-to">Ticket From</p>
                                                     </div>
 
                                                     <div
                                                         class="col-xl-4 col-lg-5 col-md-6 col-sm-8 align-self-center order-sm-0 order-1 text-sm-end mt-sm-0 mt-5">
-                                                        <h6 class=" inv-title">Ticket From</h6>
+                                                        {{-- <h6 class=" inv-title">Ticket From</h6> --}}
                                                     </div>
 
                                                     <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
-                                                        <p class="inv-customer-name">{{ $rembes->user->name }}</p>
-                                                        <p class="inv-street-addr">{{ $rembes->name }} </p>
-                                                        <p class="inv-email-address">{{ $rembes->tanggal_ticket }}</p>
-                                                        <p class="inv-email-address">{{ $rembes->status }}</p>
+                                                        <p class="inv-street-addr">Name User:
+                                                            <b>{{ $rembes->user->name }}</b>
+                                                        </p>
+                                                        <p class="inv-street-addr">Name Ticket: <b>{{ $rembes->name }}</b>
+                                                        </p>
+                                                        <p class="inv-street-addr">Status: <b>{{ $rembes->status }}</b>
+                                                        </p>
+                                                        {{-- <p
+                                                            class="inv-email-address fw-bold  text-light
+                                                        @if ($rembes->status == 'PENDING') badge badge-warning
+                                                        @elseif($rembes->status == 'APPROVED')
+                                                        badge badge-info
+                                                        @elseif($rembes->status == 'REJECTED')
+                                                        badge badge-danger
+                                                        @elseif($rembes->status == 'SUCCESS')
+                                                        badge badge-success
+                                                        @else
+                                                        badge badge-secondary @endif
+
+                                                        ">
+                                                            {{ $rembes->status }}
+                                                        </p> --}}
                                                     </div>
 
                                                     <div
                                                         class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
-                                                        <p class="inv-customer-name">{{ $rembes->user->name }}</p>
+                                                        {{-- <p class="inv-customer-name">{{ $rembes->user->name }}</p>
                                                         <p class="inv-street-addr">{{ $rembes->name }} </p>
                                                         <p class="inv-email-address">{{ $rembes->tanggal_ticket }}</p>
-                                                        <p class="inv-email-address">{{ $rembes->status }}</p>
+                                                        <p class="inv-email-address">{{ $rembes->status }}</p> --}}
                                                     </div>
 
                                                 </div>
@@ -90,16 +108,15 @@
                                             </div>
 
                                             <div class="inv--product-table-section">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead class="">
+                                                <div class="">
+                                                    <table class="table table-bordered px-3 ">
+                                                        <thead>
                                                             <tr>
-                                                                <th scope="col">No</th>
-                                                                <th scope="col">Name Reimburse</th>
-                                                                <th scope="col">Nominal</th>
-                                                                <th scope="col">Date Reimburse</th>
-                                                                <th scope="col">Description</th>
-                                                                {{-- <th class="text-end" scope="col">Photo Evidence</th> --}}
+                                                                <th>No</th>
+                                                                <th>Name Reimburse</th>
+                                                                <th>Nominal</th>
+                                                                <th>Date Reimburse</th>
+                                                                <th>Description</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -120,14 +137,12 @@
                                                                             @endphp
                                                                             {{ $tanggal->isoFormat('D-MMMM-YYYY') ?? 'No Date' }}
                                                                         </td>
-                                                                        <td style="font-size: 12px; max-width: 100px;">
+                                                                        <td
+                                                                            style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; max-width: 100px; white-space: pre-line;">
                                                                             @if ($item->deskripsi == null)
                                                                                 -
                                                                             @else
-                                                                                <p
-                                                                                    style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; max-width: 100px; white-space: pre-line;">
-                                                                                    {{ $item->deskripsi }}
-                                                                                </p>
+                                                                                {{ $item->deskripsi }}
                                                                             @endif
                                                                         </td>
                                                                     </tr>
@@ -189,11 +204,11 @@
 
                                             <div class="inv--note">
 
-                                                <div class="row mt-4">
+                                                {{-- <div class="row mt-4">
                                                     <div class="col-sm-12 col-12 order-sm-0 order-1">
                                                         <p>Note: Thank you for doing Business with us.</p>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                             </div>
 
@@ -216,19 +231,19 @@
                             <div class="invoice-action-btn">
 
                                 <div class="row">
-                                    <div class="col-xl-12 col-md-3 col-sm-6">
+                                    {{-- <div class="col-xl-12 col-md-3 col-sm-6">
                                         <a href="javascript:void(0);" class="btn btn-primary btn-send">Send Invoice</a>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-xl-12 col-md-3 col-sm-6">
                                         <a href="javascript:void(0);"
                                             class="btn btn-secondary btn-print  action-print">Print</a>
                                     </div>
-                                    <div class="col-xl-12 col-md-3 col-sm-6">
+                                    {{-- <div class="col-xl-12 col-md-3 col-sm-6">
                                         <a href="javascript:void(0);" class="btn btn-success btn-download">Download</a>
-                                    </div>
-                                    <div class="col-xl-12 col-md-3 col-sm-6">
+                                    </div> --}}
+                                    {{-- <div class="col-xl-12 col-md-3 col-sm-6">
                                         <a href="./app-invoice-edit.html" class="btn btn-dark btn-edit">Edit</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                             </div>

@@ -17,21 +17,15 @@
         <div class="switch align-self-center">
 
 
-            {{-- @can('rembes-item-create') --}}
-            {{-- @if ($rembes->status !== 'APPROVED') --}}
-            <a class="btn btn-primary mb-2 me-4" href="{{ route('dashboard.submission.create') }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-user-plus">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="8.5" cy="7" r="4"></circle>
-                    <line x1="20" y1="8" x2="20" y2="14"></line>
-                    <line x1="23" y1="11" x2="17" y2="11"></line>
-                </svg>
-                Add Approval Rembes <span id="pending-count" class="badge bg-light text-dark ms-2"></span>
-            </a>
-            {{-- @endif --}}
-            {{-- @endcan --}}
+            @can('submission-approved-create')
+                {{-- @if ($rembes->status !== 'APPROVED') --}}
+                <a class="btn btn-primary mb-2 me-4" href="{{ route('dashboard.submission.create') }}">
+                    <i class="far fa-plus-square"></i>
+
+                    Add Approval Rembes <span id="pending-count" class="badge bg-light text-dark ms-2"></span>
+                </a>
+                {{-- @endif --}}
+            @endcan
         </div>
 
 
@@ -60,7 +54,14 @@
                                     <tr>
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $data_rembes->user->name }}</td>
-                                        <td>{{ $data_rembes->name }}</td>
+                                        <td>
+                                            @can('submission-artikel-list')
+                                                <a class="text-primary" style="text-decoration: underline;"
+                                                    href="{{ route('dashboard.submission.show', $data_rembes->id) }}">
+                                                    {{ $data_rembes->name }}
+                                                </a>
+                                            @endcan
+                                        </td>
                                         <td>{{ $data_rembes->categoryTahun->slug }}</td>
                                         <td>
                                             @php
@@ -72,27 +73,53 @@
                                             @if ($data_rembes->status == 'PENDING')
                                                 <span class="badge badge-warning">{{ $data_rembes->status }}</span>
                                             @elseif($data_rembes->status == 'APPROVED')
-                                                <span class="badge badge-success">{{ $data_rembes->status }}</span>
+                                                <span class="badge badge-info">{{ $data_rembes->status }}</span>
                                             @elseif($data_rembes->status == 'REJECTED')
                                                 <span class="badge badge-danger">{{ $data_rembes->status }}</span>
+                                            @elseif($data_rembes->status == 'SUCCESS')
+                                                <span class="badge badge-success">{{ $data_rembes->status }}</span>
                                             @else
                                                 <span class="badge badge-secondary">{{ $data_rembes->status }}</span>
                                             @endif
                                         </td>
                                         <td>
-                                            @can('submission-approved-edit')
-                                                <a class="badge badge-light-primary text-start me-2"
-                                                    href="{{ route('dashboard.submission.edit', $data_rembes->id) }}">
-                                                    <i class="far fa-edit"></i>Edit</a>
-                                            @endcan
-                                            <a class="badge badge-light-info text-start me-2"
-                                                href="{{ route('dashboard.submission.show', $data_rembes->id) }}">
-                                                <i class="fas fa-comment"></i>Comment</a>
-                                            @can('submission-approved-list')
-                                                <a class="badge badge-light-success text-start me-2"
-                                                    href="{{ route('dashboard.submission.invoice', $data_rembes->id) }}">
-                                                    <i class="fas fa-file-invoice"></i>Cetak Invoice</a>
-                                            @endcan
+
+                                            <a class="badge
+                                                    badge-light-info text-start"
+                                                href="{{ route('dashboard.rembes.show', $data_rembes->id) }}">
+                                                <i data-feather="printer"></i>
+                                                Print
+                                            </a>
+                                            @if (Auth::user()->roles[0]->name == 'Admin' ||
+                                                    Auth::user()->roles[0]->name == 'Bendahara' ||
+                                                    Auth::user()->roles[0]->name == 'Manager')
+                                                @can('submission-approved-edit')
+                                                    <a class="badge badge-light-primary text-start me-2"
+                                                        href="{{ route('dashboard.submission.edit', $data_rembes->id) }}">
+                                                        <i class="far fa-edit"></i>Edit</a>
+                                                @endcan
+                                            @endif
+
+                                            @if (
+                                                $data_rembes->status == 'PENDING' ||
+                                                    $data_rembes->status == 'REJECTED' ||
+                                                    Auth::user()->roles[0]->name == 'Admin' ||
+                                                    Auth::user()->roles[0]->name == 'Bendahara')
+                                                @can('rembes-delete')
+                                                    {!! Form::open([
+                                                        'method' => 'DELETE',
+                                                        'route' => ['dashboard.rembes.destroy', $data_rembes->id],
+                                                        'style' => 'display:inline',
+                                                        'onsubmit' => 'return confirm("Are you sure you want to delete this user?");',
+                                                    ]) !!}
+                                                    {!! Form::button('<i class="far fa-trash-alt"></i> Delete', [
+                                                        'type' => 'submit',
+                                                        'class' => 'badge badge-light-danger text-start mx-3',
+                                                        'onclick' => 'return confirm("Are you sure you want to delete this user?");',
+                                                    ]) !!}
+                                                    {!! Form::close() !!}
+                                                @endcan
+                                            @endif
                                         </td>
                                     </tr>
                                 @endif

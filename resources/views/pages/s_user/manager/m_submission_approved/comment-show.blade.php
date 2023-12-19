@@ -33,6 +33,11 @@
                                     <td style="border: 1px solid #dee2e6;">#{{ $rembes->id }}</td>
                                 </tr>
                                 <tr>
+                                    <th style="border: 1px solid #dee2e6;">Reimburse Name:</th>
+                                    <td style="border: 1px solid #dee2e6;">{{ $rembes->name }}</td>
+                                </tr>
+
+                                <tr>
                                     <th style="border: 1px solid #dee2e6;">Reimburse Date:</th>
                                     <td style="border: 1px solid #dee2e6;">
                                         @php
@@ -52,9 +57,11 @@
                                         @if ($rembes->status == 'PENDING')
                                             <span class="badge badge-warning">{{ $rembes->status }}</span>
                                         @elseif($rembes->status == 'APPROVED')
-                                            <span class="badge badge-success">{{ $rembes->status }}</span>
+                                            <span class="badge badge-info">{{ $rembes->status }}</span>
                                         @elseif($rembes->status == 'REJECTED')
                                             <span class="badge badge-danger">{{ $rembes->status }}</span>
+                                        @elseif($rembes->status == 'SUCCESS')
+                                            <span class="badge badge-success">{{ $rembes->status }}</span>
                                         @else
                                             <span class="badge badge-secondary">{{ $rembes->status }}</span>
                                         @endif
@@ -223,7 +230,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editCommentLabel">Edit Comment</h5>
+                                                    <h5 class="modal-title" id="editCommentLabel">Edit Comment </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -238,23 +245,30 @@
                                                     </button>
                                                 </div>
                                                 <form
-                                                    action="{{ route('dashboard.submission.commentUpdate', $rembes->id) }}"
+                                                    action="{{ route('dashboard.submission.commentUpdate', ['id' => $comments->id]) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
-                                                    <div class="modal-body">
-                                                        <div class="my-3">
-                                                            <textarea class="form-control " name="comment" value="{{ $comments->comment }}" cols="30" rows="10"
-                                                                placeholder="Write your text">
-                                                            {{ $comments->comment }}
-                                                        </textarea>
+
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3 container">
+                                                                <label class="form-label">Write Comment</label>
+                                                                <textarea class="form-control" name="comment" cols="30" rows="10" placeholder="Write your text">{{ $comments->comment }}</textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary"
-                                                            title="Edit Comment">Save</button>
+
+                                                    <!-- Tambahkan input tersembunyi untuk comment_id -->
+                                                    <input type="hidden" name="comment_id" value="{{ $comments->id }}">
+
+                                                    <div class="text-center my-3">
+                                                        <button type="submit" class="btn btn-success" title="Save">
+                                                            <i class="fas fa-plus"></i> Edit Comment
+                                                        </button>
                                                     </div>
                                                 </form>
+
                                             </div>
 
                                         </div>
@@ -288,23 +302,23 @@
                                     @csrf
 
                                     <div class="row mt-4">
-
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Write Comment</label>
-                                                <textarea class="form-control" name="comment" cols="30" rows="10" placeholder="Write your text"></textarea>
+                                                <textarea class="form-control" name="comment" id="editor" cols="30" rows="10"
+                                                    placeholder="Write your text"></textarea>
+
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="text-center my-3">
-
                                         <button type="submit" class="btn btn-success" title="Save">
                                             <i class="fas fa-plus"></i> Add Comment
                                         </button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
 
@@ -323,4 +337,6 @@
             white-space: pre-line;
         }
     </style>
+    @push('script')
+    @endpush
 @endsection

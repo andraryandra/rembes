@@ -5,10 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class CreateKaryawanSeeder extends Seeder
+class CreateManagerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +15,8 @@ class CreateKaryawanSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'Diong',
-            'email' => 'diong@gmail.com',
+            'name' => 'Randy',
+            'email' => 'randy@gmail.com',
             'password' => bcrypt('password'),
             'phone' => '081234567890',
             'address' => 'Jl. Raya Kebayoran Lama No. 12, Jakarta Selatan',
@@ -30,16 +29,22 @@ class CreateKaryawanSeeder extends Seeder
             'rembes-edit',
             'rembes-delete',
 
-            'submission-artikel-list',
-
             'rembes-item-list',
             'rembes-item-create',
             'rembes-item-edit',
             'rembes-item-delete',
+
+            'submission-artikel-list',
+
+            'submission-approved-list',
+            'submission-approved-create',
+            'submission-approved-edit',
+            'submission-approved-delete',
+
         ];
 
         // Menetapkan peran 'User' jika belum ada
-        $role = Role::firstOrCreate(['name' => 'User']);
+        $role = Role::firstOrCreate(['name' => 'Manager']);
 
         // Menetapkan izin ke peran 'User'
         $role->syncPermissions($permissions);

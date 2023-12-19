@@ -36,4 +36,18 @@ class HomeController extends Controller
             'active' => 'dashboard'
         ]);
     }
+
+    public function manager()
+    {
+        return view('pages.s_user.manager.home_manager', [
+            'active' => 'dashboard'
+        ]);
+    }
+
+    public function bendahara()
+    {
+        return view('pages.s_user.bendahara.home_bendahara', [
+            'active' => 'dashboard'
+        ]);
+    }
 }
